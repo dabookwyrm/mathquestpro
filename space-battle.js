@@ -360,6 +360,14 @@
             sg.running=false;
             if(sg.loopId){ cancelAnimationFrame(sg.loopId); sg.loopId=null; }
             if(sg.spawnId){ clearInterval(sg.spawnId); sg.spawnId=null; }
+            // Track best wave for achievements
+            if (user) {
+                if ((sg.wave || 1) > (user.spaceMaxWave || 0)) {
+                    user.spaceMaxWave = sg.wave || 1;
+                    save();
+                }
+                setTimeout(() => checkAchievements(), 1200);
+            }
             sgDeathSpectacle();
             const arena=document.getElementById('sg-arena');
             const ov=document.createElement('div'); ov.className='space-overlay';
