@@ -1697,6 +1697,84 @@
         .bn-item:nth-child(2):hover .bn-label { color:#8B5CF6; }
         .bn-item:nth-child(4):hover .bn-label { color:#D97706; }
         .bn-item:nth-child(5):hover .bn-label { color:#64748B; }
+        /* ── ACHIEVEMENTS ─────────────────────────────── */
+        .achieve-unlock-banner {
+            position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 2px solid #818CF8; border-radius: 22px;
+            padding: 14px 20px; display: flex; align-items: center; gap: 14px;
+            z-index: 9999; box-shadow: 0 20px 60px rgba(99,102,241,0.55);
+            min-width: 280px; max-width: 88vw;
+            transition: top 0.54s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .achieve-unlock-banner.aub-show { top: 18px; }
+        .aub-icon { font-size: 2.7rem; line-height: 1; }
+        .aub-label { font-size: 8px; letter-spacing: 0.18em; font-weight: 800; color: #818CF8; text-transform: uppercase; margin-bottom: 3px; }
+        .aub-name  { font-family: var(--font-display); font-size: 1rem; color: white; letter-spacing: 0.05em; }
+        .aub-desc  { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 600; margin-top: 2px; }
+        .achieve-grid { display: flex; flex-direction: column; gap: 9px; padding-bottom: 110px; }
+        .achieve-card {
+            display: flex; align-items: center; gap: 13px;
+            background: var(--card-bg); border: 1.5px solid var(--border-color);
+            border-radius: 16px; padding: 12px 14px; transition: all 0.2s;
+        }
+        .achieve-card.ach-unlocked { border-color: rgba(129,140,248,0.55); background: rgba(99,102,241,0.07); }
+        .ach-icon { font-size: 2rem; min-width: 38px; text-align: center; filter: grayscale(1); opacity: 0.22; }
+        .achieve-card.ach-unlocked .ach-icon { filter: none; opacity: 1; }
+        .ach-body { flex: 1; }
+        .ach-name { font-weight: 900; font-size: 0.85rem; color: var(--text-secondary); }
+        .achieve-card.ach-unlocked .ach-name { color: #A78BFA; }
+        .ach-desc { font-size: 10px; color: var(--text-secondary); font-weight: 600; margin-top: 2px; opacity: 0.7; }
+        .ach-check { font-size: 16px; opacity: 0.25; }
+        .achieve-card.ach-unlocked .ach-check { opacity: 1; }
+        /* ── SEASONAL EVENT ────────────────────────────── */
+        .season-banner {
+            border-radius: 18px; padding: 14px 18px;
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 16px; animation: q-pop 0.5s ease-out;
+        }
+        .season-banner-icon { font-size: 2.6rem; }
+        .season-banner-name  { font-family: var(--font-display); font-size: 0.88rem; letter-spacing: 0.08em; }
+        .season-banner-bonus { font-size: 10px; font-weight: 700; opacity: 0.92; margin-top: 3px; }
+        /* ── SKILL TREE ────────────────────────────────── */
+        .skill-tier-label {
+            font-size: 8.5px; letter-spacing: 0.18em; font-weight: 800;
+            color: var(--text-secondary); margin: 14px 0 6px; text-transform: uppercase;
+        }
+        .skill-card {
+            display: flex; align-items: center; gap: 13px;
+            border: 2px solid var(--border-color); border-radius: 16px;
+            padding: 13px 15px; cursor: pointer; margin-bottom: 9px;
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+            background: var(--card-bg);
+        }
+        .skill-card.sk-owned  { border-color: rgba(52,211,153,0.55); background: rgba(52,211,153,0.06); cursor: default; }
+        .skill-card.sk-locked { opacity: 0.38; cursor: not-allowed; }
+        .skill-card:not(.sk-owned):not(.sk-locked):hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(99,102,241,0.65);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.22);
+        }
+        .sk-icon { font-size: 2.1rem; line-height: 1; min-width: 36px; }
+        .sk-body { flex: 1; }
+        .sk-name { font-weight: 900; font-size: 0.88rem; color: var(--text-primary); }
+        .skill-card.sk-owned .sk-name { color: #34D399; }
+        .sk-desc { font-size: 10px; color: var(--text-secondary); font-weight: 600; margin-top: 2px; }
+        .sk-cost { font-weight: 800; font-family: var(--font-mono); font-size: 0.82rem; color: var(--gold-deep); white-space: nowrap; }
+        .skill-card.sk-owned .sk-cost { color: #34D399; }
+        .sk-connector { width: 2px; height: 14px; background: var(--border-color); margin: 0 0 0 19px; }
+        .sk-connector.sk-conn-active { background: rgba(52,211,153,0.5); }
+        /* Achievement badge dot on nav */
+        .bn-badge { position: absolute; top: 4px; right: 6px; background: #EC4899; color: white;
+            border-radius: 99px; font-size: 8px; min-width: 14px; height: 14px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 3px; font-family: var(--font-display); border: 1.5px solid white; }
+        /* Shop tab bar */
+        .shop-tabs { display: flex; gap: 0; margin-bottom: 18px; border-radius: 14px; overflow: hidden; border: 2px solid var(--border-color); }
+        .shop-tab { flex: 1; padding: 10px 4px; text-align: center; font-family: var(--font-display);
+            font-size: 11px; letter-spacing: 0.08em; cursor: pointer; transition: all 0.18s;
+            background: var(--card-bg); color: var(--text-secondary); border: none; }
+        .shop-tab.active { background: var(--primary); color: white; }
     </style>
 </head>
 <body class="mortal">
@@ -1734,6 +1812,7 @@
         </div>
 
         <div id="section-dash" class="hidden">
+            <div id="season-banner-slot"></div>
             <div class="rank-section">
                 <span id="rank-icon" class="rank-icon">👶</span>
                 <h2 id="rank-title" style="margin:5px 0;">Beginner</h2>
@@ -1802,6 +1881,7 @@
         </div>
 
         <div id="section-chain" class="hidden"></div>
+        <div id="section-achievements" class="hidden"></div>
         <div id="section-mistakes" class="hidden"></div>
         <div id="section-leaderboard" class="hidden"></div>
 
@@ -1926,7 +2006,14 @@
                 weeklyScore: saved.weeklyScore || 0,
                 weekKey: saved.weekKey || currentWeekKey(),
                 lastSyncedLeague: (saved.lastSyncedLeague !== undefined) ? saved.lastSyncedLeague : 0,
-                pendingLeagueChange: saved.pendingLeagueChange || null
+                pendingLeagueChange: saved.pendingLeagueChange || null,
+                achievements: saved.achievements || [],
+                skills: saved.skills || {},
+                bestStreak: saved.bestStreak || 0,
+                spaceMaxWave: saved.spaceMaxWave || 0,
+                _fastRound: saved._fastRound || false,
+                _spring2026: saved._spring2026 || false,
+                _anniversary: saved._anniversary || false
             };
             // Local rollover: if the player skipped weeks, reset their weeklyScore so they
             // start the new week from zero (server-side rollover applies promotion/demotion).
@@ -2255,6 +2342,12 @@
         }
 
         function updateUI() {
+            // Seasonal banner on dashboard
+            const seasonSlot = document.getElementById('season-banner-slot');
+            if (seasonSlot) seasonSlot.innerHTML = renderSeasonalBanner();
+            // Achievement badge on nav
+            updateAchieveBadge();
+
             const oldCoins = parseInt(document.getElementById('hud-coins').innerText.replace(/,/g,'')) || 0;
             const oldGems = parseInt(document.getElementById('hud-gems').innerText.replace(/,/g,'')) || 0;
             document.getElementById('hud-coins').innerText = Math.floor(user.coins).toLocaleString();
@@ -2487,6 +2580,8 @@
 
         function startRound() {
             if(!user) { showToast("Please sign in first"); return; }
+            // Shield Protocol skill: grant 1 extra shield per Quest
+            if (user.skills && user.skills.shield_proto) user.shields = (user.shields || 0) + 1;
             game = { index: 0, coins: 0, correct: 0, streak: 0, startTime: Date.now(), isGauntlet: false };
             const sd = document.getElementById('streak-display');
             sd.classList.add('hidden');
@@ -2504,7 +2599,7 @@
         function startGauntlet() {
             if(!user) { showToast("Please sign in first"); return; }
             stopGauntlet();
-            timeLeft = 30;
+            timeLeft = 30 + getSkillTimeBonusSec();
             game = { index: 0, coins: 0, correct: 0, streak: 0, startTime: Date.now(), isGauntlet: true };
             const sd = document.getElementById('streak-display');
             sd.classList.add('hidden');
@@ -2822,6 +2917,17 @@
 
         function finishRound() {
             const time = (Date.now() - game.startTime) / 1000;
+            // Apply skill and seasonal coin bonuses
+            const skillMult = getSkillCoinMult();
+            const ev = getSeasonalEvent();
+            const totalMult = skillMult * ev.coinMult;
+            const rawCoins = Math.round(game.coins * totalMult);
+            const bonusCoins = rawCoins - Math.round(game.coins);
+            game.coins = rawCoins;
+            // Track stats for achievements
+            if (game.streak > (user.bestStreak || 0)) user.bestStreak = game.streak;
+            if (time <= 45 && game.correct === 10) user._fastRound = true;
+            applySeasonalFlags();
             user.coins += game.coins;
             user.weeklyScore = (user.weeklyScore || 0) + Math.floor(game.coins);
             user.weekKey = currentWeekKey();
@@ -2831,20 +2937,27 @@
             if(user.rounds >= 20 && !user.qPlay) { user.qPlay = true; user.gems += 1000; bonuses += "• Grand Marathon (+1000💎)<br>"; }
             if(user.perfectRounds >= 10 && !user.qAcc) { user.qAcc = true; user.gems += 2500; bonuses += "• Perfect Sniper (+2500💎)<br>"; }
             if(time <= 90 && game.correct === 10 && !user.qSpeed) { user.qSpeed = true; user.gems += 500; bonuses += "• Sonic Speed (+500💎)<br>"; }
+            if(bonusCoins > 0) bonuses += `• Season &amp; Skill Bonus (+${bonusCoins.toLocaleString()} Gold)<br>`;
             document.getElementById('reward-title').innerText = "MISSION COMPLETE";
             document.getElementById('reward-icon').innerText = "🏆";
             document.getElementById('reward-desc').innerHTML = `SCORE: ${game.correct}/10<br>TIME: ${Math.floor(time)}s<br>EARNED: ${Math.floor(game.coins).toLocaleString()} Gold<br><br><span style="color:var(--gem)">${bonuses}</span>`;
             const ov = document.getElementById('reward-overlay');
             ov.classList.remove('hidden');
             setTimeout(()=>ov.classList.add('active'), 10);
-            // Big celebration if perfect
             if (game.correct === 10) { launchConfetti(120); playFanfare(true); }
             else { launchConfetti(40); playFanfare(false); }
             save();
             submitScore();
+            setTimeout(() => checkAchievements(), 800);
         }
 
         function finishGauntlet() {
+            // Apply skill and seasonal coin bonuses
+            const skillMult = getSkillCoinMult();
+            const ev = getSeasonalEvent();
+            game.coins = Math.round(game.coins * skillMult * ev.coinMult);
+            if (game.streak > (user.bestStreak || 0)) user.bestStreak = game.streak;
+            applySeasonalFlags();
             user.coins += game.coins;
             user.weeklyScore = (user.weeklyScore || 0) + Math.floor(game.coins);
             user.weekKey = currentWeekKey();
@@ -2857,14 +2970,17 @@
             playFail();
             save();
             submitScore();
+            setTimeout(() => checkAchievements(), 800);
         }
 
-        function showShop() {
+        function showShop(tab) {
             if(!user) { showToast("Please sign in first"); return; }
             hideAll();
             const shopSection = document.getElementById('section-shop');
             shopSection.classList.remove('hidden');
             playEnter(shopSection);
+            const activeTab = tab || 'market';
+
             const curGroup = RANKS[user.rankIdx].group;
             let capName = "Mortal Capsule"; let cost = 100; let emo = "📦";
             if (curGroup === "Elite Ascension") { capName = "Elite Cache"; cost = 250; emo = "🔮"; }
@@ -2879,6 +2995,21 @@
             ];
 
             let html = `<h1 class="shop-title">Marketplace</h1>`;
+            html += `<div class="shop-tabs">
+                <button class="shop-tab ${activeTab==='market'?'active':''}" onclick="showShop('market')">Market</button>
+                <button class="shop-tab ${activeTab==='skills'?'active':''}" onclick="showShop('skills')">Skill Tree</button>
+            </div>`;
+
+            if (activeTab === 'skills') {
+                const owned = Object.keys(user.skills||{}).length;
+                html += `<p style="color:var(--text-secondary);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;margin:0 0 4px;">${owned} / ${SKILL_TREE.length} SKILLS UNLOCKED · Spend Coins to upgrade permanently</p>`;
+                html += `<div style="overflow-y:auto;max-height:560px;padding:4px 2px 120px;">`;
+                html += renderSkillTree();
+                html += `</div>`;
+                html += `<button class="main-btn btn-exit" onclick="showDashboard()" style="margin-top:16px;">Exit</button>`;
+                shopSection.innerHTML = html;
+                return;
+            }
 
             html += `<div class="mat-strip">`;
             MATERIALS.forEach(m => html += `<span>${m}: ${user.mats[m]}</span>`);
@@ -3159,7 +3290,7 @@
 
         function hideAll() {
             stopGauntlet();
-            ['section-auth','section-dash','section-play','section-game','section-shop','section-mistakes','section-leaderboard','section-space','section-chain','reward-overlay'].forEach(id => {
+            ['section-auth','section-dash','section-play','section-game','section-shop','section-mistakes','section-leaderboard','section-space','section-chain','section-achievements','reward-overlay'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) { el.classList.add('hidden'); el.classList.remove('active'); }
             });
@@ -3202,6 +3333,236 @@
         }
 
         function save() { if(user) localStorage.setItem(user.name, JSON.stringify(user)); }
+
+        // ══════════════════════════════════════════════════
+        // ACHIEVEMENTS SYSTEM
+        // ══════════════════════════════════════════════════
+        const ACHIEVEMENTS = [
+            { id: 'first_step',     icon: '👣', name: 'First Step',         desc: 'Complete your first Quest round',                check: u => (u.rounds||0) >= 1 },
+            { id: 'marathon',       icon: '🏃', name: 'Marathon Runner',    desc: 'Complete 20 Quest rounds',                       check: u => (u.rounds||0) >= 20 },
+            { id: 'centurion',      icon: '💯', name: 'Centurion',          desc: 'Complete 100 Quest rounds',                      check: u => (u.rounds||0) >= 100 },
+            { id: 'sniper',         icon: '🎯', name: 'Perfect Sniper',     desc: 'Get 10 perfect rounds (100% accuracy)',          check: u => (u.perfectRounds||0) >= 10 },
+            { id: 'perfectionist',  icon: '✨', name: 'Perfectionist',      desc: '100% accuracy in 25 rounds',                    check: u => (u.perfectRounds||0) >= 25 },
+            { id: 'speed_demon',    icon: '⚡', name: 'Speed Demon',        desc: 'Finish a Quest under 45 seconds',               check: u => !!u._fastRound },
+            { id: 'streak5',        icon: '🌶️', name: 'On Fire',            desc: 'Get a 5-answer streak in any mode',             check: u => (u.bestStreak||0) >= 5 },
+            { id: 'streak10',       icon: '💥', name: 'Unstoppable',        desc: 'Get a 10-answer streak in any mode',            check: u => (u.bestStreak||0) >= 10 },
+            { id: 'chain_novice',   icon: '🔗', name: 'Chain Novice',       desc: 'Reach Chain Weaver level 5',                    check: u => (u.chainLevel||0) >= 5 },
+            { id: 'chain_master',   icon: '⛓️', name: 'Chain Master',       desc: 'Reach Chain Weaver level 20',                   check: u => (u.chainLevel||0) >= 20 },
+            { id: 'chain_legend',   icon: '🌌', name: 'Chain Legend',       desc: 'Reach Chain Weaver level 40',                   check: u => (u.chainLevel||0) >= 40 },
+            { id: 'chain_streak5',  icon: '🔥', name: 'Chain Keeper',       desc: 'Get a 5-streak in Chain Weaver',                check: u => (u.chainStreak||0) >= 5 },
+            { id: 'space_cadet',    icon: '🚀', name: 'Space Cadet',        desc: 'Survive 3 waves in Space Battle',               check: u => (u.spaceMaxWave||0) >= 3 },
+            { id: 'space_ace',      icon: '🛸', name: 'Space Ace',          desc: 'Survive 10 waves in Space Battle',              check: u => (u.spaceMaxWave||0) >= 10 },
+            { id: 'millionaire',    icon: '🪙', name: 'Gold Hoarder',       desc: 'Accumulate 10,000 coins',                       check: u => (u.coins||0) >= 10000 },
+            { id: 'vault_titan',    icon: '💎', name: 'Vault Titan',        desc: 'Accumulate 100,000 coins',                      check: u => (u.coins||0) >= 100000 },
+            { id: 'gem_vault',      icon: '💜', name: 'Gem Vault',          desc: 'Accumulate 5,000 gems',                         check: u => (u.gems||0) >= 5000 },
+            { id: 'rank_elite',     icon: '🏆', name: 'Elite Scholar',      desc: 'Reach Elite Ascension rank',                    check: u => (u.rankIdx||0) >= 8 },
+            { id: 'rank_cosmic',    icon: '🌠', name: 'Cosmic Mind',        desc: 'Reach Cosmic Architects rank',                  check: u => (u.rankIdx||0) >= 16 },
+            { id: 'collector',      icon: '🔮', name: 'Collector',          desc: 'Own 3 artifacts',                               check: u => (u.artifacts||[]).length >= 3 },
+            { id: 'league_diamond', icon: '💠', name: 'Diamond Ascendant',  desc: 'Reach Diamond league',                          check: u => (u.league||0) >= 9 },
+            { id: 'skill_seeker',   icon: '🌱', name: 'Skill Seeker',       desc: 'Unlock your first skill',                       check: u => Object.keys(u.skills||{}).length >= 1 },
+            { id: 'skill_tree_max', icon: '🌳', name: 'Fully Grown',        desc: 'Unlock all skills in the tree',                 check: u => Object.keys(u.skills||{}).length >= SKILL_TREE.length },
+            { id: 'spring_scholar', icon: '🌸', name: 'Spring Scholar',     desc: 'Played during the Spring Bloom event',          check: u => !!u._spring2026 },
+            { id: 'anniversary',    icon: '🎂', name: 'Anniversary VIP',    desc: 'Played during the Anniversary Week event',      check: u => !!u._anniversary },
+        ];
+
+        function checkAchievements() {
+            if (!user) return;
+            if (!user.achievements) user.achievements = [];
+            const newUnlocks = [];
+            ACHIEVEMENTS.forEach(a => {
+                if (!user.achievements.includes(a.id) && a.check(user)) {
+                    user.achievements.push(a.id);
+                    newUnlocks.push(a);
+                }
+            });
+            if (newUnlocks.length) {
+                save();
+                newUnlocks.forEach((a, i) => setTimeout(() => showAchievementUnlock(a), i * 1000));
+                updateAchieveBadge();
+            }
+        }
+
+        function showAchievementUnlock(a) {
+            const el = document.createElement('div');
+            el.className = 'achieve-unlock-banner';
+            el.innerHTML = `<div class="aub-icon">${a.icon}</div>
+                <div>
+                    <div class="aub-label">Achievement Unlocked</div>
+                    <div class="aub-name">${a.name}</div>
+                    <div class="aub-desc">${a.desc}</div>
+                </div>`;
+            document.body.appendChild(el);
+            setTimeout(() => el.classList.add('aub-show'), 10);
+            setTimeout(() => { el.classList.remove('aub-show'); setTimeout(() => el.remove(), 560); }, 3600);
+            flash(); playPop();
+        }
+
+        function updateAchieveBadge() {
+            const badge = document.getElementById('achieve-nav-badge');
+            if (!badge || !user) return;
+            const count = (user.achievements || []).length;
+            if (count > 0) { badge.innerText = count; badge.classList.remove('hidden'); }
+            else { badge.classList.add('hidden'); }
+        }
+
+        function showAchievements() {
+            if (!user) return;
+            hideAll();
+            const sec = document.getElementById('section-achievements');
+            sec.classList.remove('hidden');
+            playEnter(sec);
+            const unlocked = user.achievements || [];
+            const count = unlocked.length;
+            let html = `<h1 style="font-family:var(--font-display);font-size:1.4rem;letter-spacing:0.08em;margin:0 0 4px;">Achievements</h1>
+                <p style="color:var(--text-secondary);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;margin:0 0 10px;">${count} / ${ACHIEVEMENTS.length} UNLOCKED</p>`;
+            html += `<div class="progress-track" style="margin-bottom:18px;"><div class="progress-bar-fill" style="width:${Math.round(count/ACHIEVEMENTS.length*100)}%"></div></div>`;
+            html += `<div class="achieve-grid">`;
+            ACHIEVEMENTS.forEach(a => {
+                const done = unlocked.includes(a.id);
+                html += `<div class="achieve-card ${done ? 'ach-unlocked' : ''}">
+                    <div class="ach-icon">${a.icon}</div>
+                    <div class="ach-body">
+                        <div class="ach-name">${a.name}</div>
+                        <div class="ach-desc">${done ? a.desc : '???'}</div>
+                    </div>
+                    <div class="ach-check">${done ? '✅' : '🔒'}</div>
+                </div>`;
+            });
+            html += `</div>
+                <div style="display:flex;gap:10px;margin-top:10px;padding-bottom:110px;">
+                    <button class="main-btn btn-exit" onclick="showDashboard()" style="flex:1;">Back</button>
+                    <button class="main-btn" onclick="logout()" style="flex:0 0 auto;background:rgba(239,68,68,0.12);color:#EF4444;border:2px solid rgba(239,68,68,0.3);">Sign Out</button>
+                </div>`;
+            sec.innerHTML = html;
+        }
+
+        // ══════════════════════════════════════════════════
+        // SEASONAL EVENTS
+        // ══════════════════════════════════════════════════
+        function getSeasonalEvent() {
+            const now = new Date();
+            const m = now.getMonth() + 1;
+            const d = now.getDate();
+            const y = now.getFullYear();
+            if (y === 2026 && m === 5 && d <= 7) {
+                return { id: 'anniversary', name: 'Anniversary Week', bonus: '+50% Coins · Double Gems · Exclusive Badge',
+                    icon: '🎂', color: 'linear-gradient(135deg,#7c3aed,#ec4899)', text: 'white', coinMult: 1.5, gemMult: 2.0, flag: '_anniversary' };
+            }
+            if (m >= 3 && m <= 5) {
+                return { id: 'spring', name: 'Spring Bloom Festival', bonus: '+20% Coin Bonus Active',
+                    icon: '🌸', color: 'linear-gradient(135deg,#059669,#34d399)', text: 'white', coinMult: 1.2, gemMult: 1.0, flag: '_spring2026' };
+            }
+            if (m >= 6 && m <= 8) {
+                return { id: 'summer', name: 'Summer Blaze', bonus: '+30% Coin Bonus Active',
+                    icon: '☀️', color: 'linear-gradient(135deg,#d97706,#f59e0b)', text: 'white', coinMult: 1.3, gemMult: 1.0, flag: null };
+            }
+            if (m >= 9 && m <= 11) {
+                return { id: 'autumn', name: 'Harvest Season', bonus: '+25% Coin Bonus Active',
+                    icon: '🍂', color: 'linear-gradient(135deg,#b45309,#d97706)', text: 'white', coinMult: 1.25, gemMult: 1.0, flag: null };
+            }
+            return { id: 'winter', name: 'Frost Festival', bonus: '+15% Coins · Gem Drops Boosted',
+                icon: '❄️', color: 'linear-gradient(135deg,#1d4ed8,#3b82f6)', text: 'white', coinMult: 1.15, gemMult: 1.2, flag: null };
+        }
+
+        function applySeasonalFlags() {
+            const ev = getSeasonalEvent();
+            if (ev.flag && user) { user[ev.flag] = true; }
+        }
+
+        function renderSeasonalBanner() {
+            const ev = getSeasonalEvent();
+            return `<div class="season-banner" style="background:${ev.color};color:${ev.text};">
+                <div class="season-banner-icon">${ev.icon}</div>
+                <div>
+                    <div class="season-banner-name">${ev.name}</div>
+                    <div class="season-banner-bonus">${ev.bonus}</div>
+                </div>
+            </div>`;
+        }
+
+        // ══════════════════════════════════════════════════
+        // SKILL TREE
+        // ══════════════════════════════════════════════════
+        const SKILL_TREE = [
+            { id: 'xp_surge',     tier: 0, name: 'XP Surge',        desc: '+20% coins from all game modes',        icon: '⚡', cost: 600,  req: [] },
+            { id: 'time_ext',     tier: 0, name: 'Time Extension',   desc: '+8s on every Quest timer',             icon: '⏰', cost: 800,  req: [] },
+            { id: 'chain_safe',   tier: 0, name: 'Chain Safety',     desc: '+1 free undo in Chain Weaver',         icon: '🔗', cost: 500,  req: [] },
+            { id: 'xp_overdrive', tier: 1, name: 'XP Overdrive',     desc: '+45% coins total (stacks with Surge)', icon: '💥', cost: 2200, req: ['xp_surge'] },
+            { id: 'time_mastery', tier: 1, name: 'Time Mastery',     desc: '+22s on every Quest timer (stacks)',   icon: '⌛', cost: 2800, req: ['time_ext'] },
+            { id: 'shield_proto', tier: 1, name: 'Shield Protocol',  desc: 'Start each Quest with 1 free shield',  icon: '🛡️', cost: 1800, req: ['time_ext'] },
+            { id: 'chain_vision', tier: 1, name: 'Chain Vision',     desc: 'Chain Weaver shows a midpoint hint',   icon: '👁️', cost: 1500, req: ['chain_safe'] },
+            { id: 'gold_rush',    tier: 2, name: 'Gold Rush',        desc: '+80% total coins + gem drops doubled', icon: '🪙', cost: 6500, req: ['xp_overdrive'] },
+            { id: 'time_lord',    tier: 2, name: 'Time Lord',        desc: 'Quest timer never runs out',           icon: '♾️', cost: 9000, req: ['time_mastery','shield_proto'] },
+            { id: 'chain_god',    tier: 2, name: 'Chain God',        desc: 'Unlimited undos in Chain Weaver',      icon: '⛓️', cost: 5500, req: ['chain_vision'] },
+        ];
+
+        function getSkillCoinMult() {
+            if (!user || !user.skills) return 1;
+            const sk = user.skills;
+            let mult = 1;
+            if (sk.xp_surge)     mult += 0.20;
+            if (sk.xp_overdrive) mult += 0.25;
+            if (sk.gold_rush)    mult += 0.35;
+            return mult;
+        }
+
+        function getSkillTimeBonusSec() {
+            if (!user || !user.skills) return 0;
+            const sk = user.skills;
+            if (sk.time_lord)    return 99999;
+            let bonus = 0;
+            if (sk.time_ext)     bonus += 8;
+            if (sk.time_mastery) bonus += 22;
+            return bonus;
+        }
+
+        function buySkill(id) {
+            const sk = SKILL_TREE.find(s => s.id === id);
+            if (!sk || !user) return;
+            if (!user.skills) user.skills = {};
+            if (user.skills[id]) return showToast("Already unlocked!");
+            for (const rid of sk.req) {
+                if (!user.skills[rid]) {
+                    const dep = SKILL_TREE.find(s => s.id === rid);
+                    return showToast(`Requires: ${dep ? dep.name : rid}`);
+                }
+            }
+            if (user.coins < sk.cost) { playWrong(); return showToast("Need more coins!"); }
+            user.coins -= sk.cost;
+            user.skills[id] = true;
+            flash(); burst(16, "⭐", "hud-coins"); launchConfetti(50);
+            showToast(`Unlocked: ${sk.name}!`);
+            save(); updateUI(); checkAchievements();
+            showShop('skills');
+        }
+
+        function renderSkillTree() {
+            const sk = user.skills || {};
+            let html = '';
+            [0, 1, 2].forEach(tier => {
+                const nodes = SKILL_TREE.filter(s => s.tier === tier);
+                const tierNames = ['Foundation', 'Advanced', 'Mastery'];
+                html += `<div class="skill-tier-label">Tier ${tier} · ${tierNames[tier]}</div>`;
+                nodes.forEach(s => {
+                    const owned = !!sk[s.id];
+                    const reqMet = s.req.every(r => !!sk[r]);
+                    const locked = !owned && !reqMet;
+                    if (s.req.length > 0) {
+                        const anyParentOwned = s.req.some(r => !!sk[r]);
+                        html += `<div class="sk-connector ${anyParentOwned ? 'sk-conn-active' : ''}"></div>`;
+                    }
+                    html += `<div class="skill-card ${owned ? 'sk-owned' : locked ? 'sk-locked' : ''}" onclick="${owned || locked ? '' : `buySkill('${s.id}')`}">
+                        <div class="sk-icon">${s.icon}</div>
+                        <div class="sk-body">
+                            <div class="sk-name">${s.name}</div>
+                            <div class="sk-desc">${s.desc}</div>
+                        </div>
+                        <div class="sk-cost">${owned ? '✓ OWNED' : locked ? '🔒 LOCKED' : s.cost.toLocaleString() + ' 🪙'}</div>
+                    </div>`;
+                });
+            });
+            return html;
+        }
 
         // === LEAGUES + LEADERBOARD (powered by JSONBin.io) ===
         const LB_BIN_ID = '69ef1749856a68218978c9d2';
@@ -3583,13 +3944,14 @@
             </div>
         </div>
 
-        <div class="bn-item" onclick="if(!user)return;navRipple(this,event);logout()">
-            <div class="bn-icon">👤</div>
-            <div class="bn-label">Account</div>
+        <div class="bn-item" onclick="if(!user)return;navRipple(this,event);showAchievements()" style="position:relative;">
+            <div class="bn-icon">🏅</div>
+            <div id="achieve-nav-badge" class="bn-badge hidden">0</div>
+            <div class="bn-label">Trophies</div>
             <div class="bn-tooltip">
-                <span class="bn-tt-icon">👤</span>
-                <div class="bn-tt-title">Switch Account</div>
-                <div class="bn-tt-sub">Change player</div>
+                <span class="bn-tt-icon">🏅</span>
+                <div class="bn-tt-title">Achievements</div>
+                <div class="bn-tt-sub">View unlocked trophies</div>
             </div>
         </div>
 
