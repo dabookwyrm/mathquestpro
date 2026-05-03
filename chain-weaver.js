@@ -608,11 +608,17 @@ function cwCheck() {
         earned = Math.round((20 + level * 4) * (1 + sBonus * 0.2));
         cw.sessionScore += earned;
         if (user) {
+            // Apply seasonal and skill bonuses to chain rewards
+            const skillMult = (typeof getSkillCoinMult === 'function') ? getSkillCoinMult() : 1;
+            const evMult = (typeof getSeasonalEvent === 'function') ? getSeasonalEvent().coinMult : 1;
+            earned = Math.round(earned * skillMult * evMult);
             user.coins       = (user.coins || 0) + earned;
             user.chainLevel  = Math.min((user.chainLevel || 1) + 1, 50);
             user.chainStreak = cw.streak;
             user.weeklyScore = (user.weeklyScore || 0) + earned;
+            if (typeof applySeasonalFlags === 'function') applySeasonalFlags();
             save();
+            setTimeout(() => { if (typeof checkAchievements === 'function') checkAchievements(); }, 600);
         }
         if (cw.streak > 1 && cw.streak % 3 === 0) cwFlashMult('STREAK x' + cw.streak);
         playCorrect();
