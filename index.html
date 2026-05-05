@@ -3148,6 +3148,12 @@
                 { id: 'double', name: 'XP Overclock', desc: 'Permanent 2x Gold', price: 1500, icon: '⚡', type: 'gem' },
                 { id: 'magnet', name: 'Gold Magnet', desc: '+25% Gold Per Round', price: 5000, icon: '🧲', type: 'coin' }
             ];
+            const cosmetics = [
+                { id: 'cos_glow', name: 'Aura Glow', desc: 'Adds a soft golden aura to your HUD', price: 350, icon: '✨' },
+                { id: 'cos_neon', name: 'Neon Frame', desc: 'Turns UI borders into neon accents', price: 750, icon: '🟣' },
+                { id: 'cos_void', name: 'Void Theme', desc: 'Dark cosmic color palette', price: 1200, icon: '🌌' },
+                { id: 'cos_chrome', name: 'Chrome Core', desc: 'Sleek metallic dashboard styling', price: 1800, icon: '🪙' }
+            ];
 
             let html = `<h1 class="shop-title">Marketplace</h1>`;
             html += `<div class="shop-tabs">
@@ -3195,6 +3201,20 @@
                     </div>
                 </div>`;
             });
+
+            html += `<p class="section-label" style="color:#F472B6;">Cosmetics</p>`;
+            const ownedCos = user.cosmetics || {};
+            html += cosmetics.map(cos => {
+                const owned = !!ownedCos[cos.id];
+                return `<div class="shop-card" onclick="${owned ? '' : `buyCosmetic('${cos.id}', ${cos.price})`}" style="display:flex; align-items:center; gap:18px; border-color:rgba(236,72,153,0.35); background:linear-gradient(135deg, rgba(244,114,182,0.08), rgba(99,102,241,0.06)); opacity:${owned ? 0.55 : 1}; cursor:${owned ? 'default' : 'pointer'};">
+                    <span style="font-size:2.4rem;">${cos.icon}</span>
+                    <div style="text-align:left; flex-grow:1;">
+                        <h3 style="margin:0; font-size:1rem;">${cos.name}${owned ? ' <span style="color:var(--muted);font-size:0.73rem;">(OWNED)</span>' : ''}</h3>
+                        <p style="margin:3px 0 0 0; font-size:0.76rem; color:var(--muted); font-weight:500;">${cos.desc}</p>
+                    </div>
+                    <div style="font-weight:700; font-family:var(--font-mono); color:var(--gem);">${owned ? '✓' : cos.price + '💎'}</div>
+                </div>`;
+            }).join('');
 
             html += `<p class="section-label">Augmentations</p>`;
             html += items.map(item => `<div class="shop-card" onclick="buyItem('${item.id}', ${item.price}, '${item.type}')" style="display:flex; align-items:center; gap:18px;">
@@ -3271,6 +3291,22 @@
             burst(10, "✨", currency === 'gem' ? "hud-gems" : "hud-coins");
             playPurchase();
             showToast(`Acquired · ${id.toUpperCase()}`);
+            updateUI();
+            showShop();
+        }
+
+        function buyCosmetic(id, price) {
+            if(!user.cosmetics) user.cosmetics = {};
+            if(user.cosmetics[id]) return showToast("Already owned!");
+            if(user.gems < price) { playWrong(); return showToast("Need more gems!"); }
+            user.gems -= price;
+            user.cosmetics[id] = true;
+            if(!user.activeCosmetic) user.activeCosmetic = id;
+            flash();
+            burst(12, "✨", "hud-gems");
+            playPurchase();
+            showToast("Cosmetic unlocked!");
+            save();
             updateUI();
             showShop();
         }
