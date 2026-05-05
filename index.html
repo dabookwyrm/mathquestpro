@@ -1785,8 +1785,63 @@
             0%,100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
-        .st-node { transition: opacity 0.2s; }
-        .st-node:hover circle:first-of-type { filter: brightness(1.2); }
+        .st-node { transition: opacity 0.2s, filter 0.25s; }
+        .st-node:hover { opacity: 0.9 !important; }
+        /* Juicy HUD glow */
+        .wallet-item { transition: transform 0.18s; }
+        .wallet-item:hover { transform: scale(1.06); }
+        .ic { filter: drop-shadow(0 0 6px currentColor); }
+        /* Dramatic quest box */
+        .quest-box {
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04));
+            border: 1.5px solid rgba(99,102,241,0.22);
+            position: relative; overflow: hidden;
+        }
+        .quest-box::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .quest-title {
+            background: linear-gradient(90deg, #6366f1, #a78bfa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; letter-spacing: 0.08em;
+        }
+        .quest-line {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; padding: 5px 2px; border-bottom: 1px solid rgba(99,102,241,0.1);
+            gap: 8px;
+        }
+        .quest-line:last-of-type { border-bottom: none; }
+        .quest-line .ql-status { font-size: 1.1rem; flex-shrink: 0; }
+        .ql-done { color: #34d399; font-size: 1.1rem; }
+        .ql-bar { height: 4px; background: rgba(99,102,241,0.15); border-radius: 99px; flex: 1; max-width: 60px; overflow: hidden; }
+        .ql-bar-fill { height: 100%; background: linear-gradient(90deg,#6366f1,#a78bfa); border-radius: 99px; transition: width 0.4s; }
+        /* Material nav icon sizing */
+        .bn-icon .material-symbols-rounded { font-size: 1.6rem; }
+        .bn-home-orb .material-symbols-rounded { font-size: 1.9rem; color: white; }
+        /* Animated season banner */
+        .season-banner {
+            border-radius: 18px; padding: 13px 16px; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.08) inset;
+            position: relative; overflow: hidden;
+            animation: sb-pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes sb-pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .season-banner::after {
+            content: ''; position: absolute; top: -30%; right: -8%; width: 120px; height: 180%;
+            background: rgba(255,255,255,0.07); transform: rotate(18deg); pointer-events: none;
+        }
+        .season-banner-icon { font-size: 2.1rem; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); flex-shrink: 0; }
+        .season-banner-name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; }
+        .season-banner-bonus { font-size: 0.75rem; font-weight: 700; opacity: 0.9; margin-top: 1px; }
+        .season-banner-tag {
+            margin-left: auto; flex-shrink: 0;
+            background: rgba(255,255,255,0.18); border-radius: 99px;
+            font-family: var(--font-display); font-size: 0.62rem; font-weight: 800;
+            padding: 3px 9px; letter-spacing: 0.08em; backdrop-filter: blur(4px);
+        }
         /* Skill detail panel */
         .skill-detail-panel {
             background: var(--card-bg); border: 1.5px solid rgba(99,102,241,0.4);
@@ -1864,10 +1919,19 @@
 
             <div class="quest-box">
                 <p class="quest-title">Elite Challenge Suite</p>
-                <div class="quest-line"><span>Grand Marathon (Rounds: <span id="q-play-count">0</span>/20)</span> <span id="q-play-status">⭕</span></div>
-                <div class="quest-line"><span>Perfect Sniper (100% Acc: <span id="q-acc-count">0</span>/10)</span> <span id="q-acc-status">⭕</span></div>
-                <div class="quest-line"><span>Sonic Speed (Sub 90s Flash)</span> <span id="q-speed-status">⭕</span></div>
-                <div id="difficulty-display">Difficulty: Tier 1</div>
+                <div style="font-size:0.65rem;color:var(--text-secondary);font-weight:700;letter-spacing:0.06em;margin:-4px 0 8px;text-transform:uppercase;">⚔️ Quest Challenges</div>
+                <div class="quest-line"><span>🏃 Grand Marathon (<span id="q-play-count">0</span>/20 rounds)</span><div class="ql-bar"><div id="q-play-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-play-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>🎯 Perfect Sniper (<span id="q-acc-count">0</span>/10 perfect)</span><div class="ql-bar"><div id="q-acc-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-acc-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>⚡ Sonic Speed (sub-90s perfect)</span><span id="q-speed-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>🔥 Streak Lord (<span id="q-streak-count">0</span>/15 streak)</span><div class="ql-bar"><div id="q-streak-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-streak-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>💀 Gauntlet Warrior (<span id="q-gauntlet-count">0</span>/15 in one run)</span><div class="ql-bar"><div id="q-gauntlet-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-gauntlet-status" class="ql-status">⭕</span></div>
+                <div style="font-size:0.65rem;color:var(--text-secondary);font-weight:700;letter-spacing:0.06em;margin:8px 0;text-transform:uppercase;">🚀 Space Battle</div>
+                <div class="quest-line"><span>🛸 Space Pioneer (wave <span id="q-space5-count">0</span>/5)</span><div class="ql-bar"><div id="q-space5-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-space5-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>🌌 Space Legend (wave <span id="q-space15-count">0</span>/15)</span><div class="ql-bar"><div id="q-space15-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-space15-status" class="ql-status">⭕</span></div>
+                <div style="font-size:0.65rem;color:var(--text-secondary);font-weight:700;letter-spacing:0.06em;margin:8px 0;text-transform:uppercase;">🔗 Chain Weaver</div>
+                <div class="quest-line"><span>⛓️ Chain Initiate (level <span id="q-chain10-count">0</span>/10)</span><div class="ql-bar"><div id="q-chain10-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-chain10-status" class="ql-status">⭕</span></div>
+                <div class="quest-line"><span>🌐 Chain Expert (level <span id="q-chain25-count">0</span>/25)</span><div class="ql-bar"><div id="q-chain25-bar" class="ql-bar-fill" style="width:0%"></div></div><span id="q-chain25-status" class="ql-status">⭕</span></div>
+                <div id="difficulty-display" style="margin-top:10px;">Engine Difficulty: Tier 1</div>
             </div>
 
             <button onclick="deleteAccount()" style="margin-top:24px;width:100%;padding:12px;background:transparent;border:2px solid rgba(239,68,68,0.35);border-radius:14px;color:#EF4444;font-family:var(--font-body);font-weight:800;font-size:13px;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;opacity:0.7;" onmouseover="this.style.background='rgba(239,68,68,0.08)';this.style.opacity='1';this.style.borderColor='rgba(239,68,68,0.7)';" onmouseout="this.style.background='transparent';this.style.opacity='0.7';this.style.borderColor='rgba(239,68,68,0.35)';">Delete Account</button>
@@ -2030,6 +2094,15 @@
                 qAcc: saved.qAcc || false,
                 qSpeed: saved.qSpeed || false,
                 qPlay: saved.qPlay || false,
+                qStreak15: saved.qStreak15 || false,
+                qGauntlet15: saved.qGauntlet15 || false,
+                qSpace5: saved.qSpace5 || false,
+                qSpace15: saved.qSpace15 || false,
+                qChain10: saved.qChain10 || false,
+                qChain25: saved.qChain25 || false,
+                lastGemDay: saved.lastGemDay || '',
+                gauntletBest: saved.gauntletBest || 0,
+                chainLevel: saved.chainLevel || 0,
                 grade: saved.grade || selectedGrade,
                 shields: saved.shields || 0,
                 mats: saved.mats || { 'Ancient Script': 0, 'Void Shard': 0, 'Cosmic Dust': 0, 'God Ember': 0 },
@@ -2387,11 +2460,23 @@
             document.getElementById('hud-gems').innerText = Math.floor(user.gems).toLocaleString();
             if (Math.floor(user.coins) !== oldCoins) bumpCount('hud-coins', false);
             if (Math.floor(user.gems) !== oldGems) bumpCount('hud-gems', true);
-            document.getElementById('q-play-count').innerText = Math.min(user.rounds, 20);
-            document.getElementById('q-acc-count').innerText = Math.min(user.perfectRounds, 10);
-            document.getElementById('q-play-status').innerText = user.qPlay ? "✅" : "⭕";
-            document.getElementById('q-acc-status').innerText = user.qAcc ? "✅" : "⭕";
-            document.getElementById('q-speed-status').innerText = user.qSpeed ? "✅" : "⭕";
+            function setQl(countId, barId, statusId, cur, max, done) {
+                const pct = Math.min(100, Math.round(cur/max*100));
+                const el = document.getElementById(countId); if(el) el.innerText = Math.min(cur,max);
+                const bar = document.getElementById(barId); if(bar) bar.style.width = pct+'%';
+                const st = document.getElementById(statusId);
+                if(st) { st.innerText = done ? '✅' : '⭕'; if(done) st.className='ql-done'; }
+            }
+            setQl('q-play-count','q-play-bar','q-play-status', user.rounds, 20, user.qPlay);
+            setQl('q-acc-count','q-acc-bar','q-acc-status', user.perfectRounds, 10, user.qAcc);
+            setQl('q-streak-count','q-streak-bar','q-streak-status', user.bestStreak||0, 15, user.qStreak15);
+            setQl('q-gauntlet-count','q-gauntlet-bar','q-gauntlet-status', user.gauntletBest||0, 15, user.qGauntlet15);
+            setQl('q-space5-count','q-space5-bar','q-space5-status', user.spaceMaxWave||0, 5, user.qSpace5);
+            setQl('q-space15-count','q-space15-bar','q-space15-status', user.spaceMaxWave||0, 15, user.qSpace15);
+            setQl('q-chain10-count','q-chain10-bar','q-chain10-status', user.chainLevel||0, 10, user.qChain10);
+            setQl('q-chain25-count','q-chain25-bar','q-chain25-status', user.chainLevel||0, 25, user.qChain25);
+            const speedSt = document.getElementById('q-speed-status');
+            if(speedSt) { speedSt.innerText = user.qSpeed ? '✅' : '⭕'; if(user.qSpeed) speedSt.className='ql-done'; }
             document.getElementById('difficulty-display').innerText = `Engine Difficulty: Tier ${user.grade}`;
 
             const wq = (user.wrongQuestions || []).length;
@@ -2967,10 +3052,23 @@
             user.rounds++;
             if(game.correct === 10) user.perfectRounds++;
             let bonuses = "";
-            if(user.rounds >= 20 && !user.qPlay) { user.qPlay = true; user.gems += 1000; bonuses += "• Grand Marathon (+1000💎)<br>"; }
-            if(user.perfectRounds >= 10 && !user.qAcc) { user.qAcc = true; user.gems += 2500; bonuses += "• Perfect Sniper (+2500💎)<br>"; }
-            if(time <= 90 && game.correct === 10 && !user.qSpeed) { user.qSpeed = true; user.gems += 500; bonuses += "• Sonic Speed (+500💎)<br>"; }
-            if(bonusCoins > 0) bonuses += `• Season &amp; Skill Bonus (+${bonusCoins.toLocaleString()} Gold)<br>`;
+            // Elite challenges
+            if(user.rounds >= 20 && !user.qPlay) { user.qPlay = true; user.gems += 1000; bonuses += "• 🏃 Grand Marathon (+1000💎)<br>"; }
+            if(user.perfectRounds >= 10 && !user.qAcc) { user.qAcc = true; user.gems += 2500; bonuses += "• 🎯 Perfect Sniper (+2500💎)<br>"; }
+            if(time <= 90 && game.correct === 10 && !user.qSpeed) { user.qSpeed = true; user.gems += 500; bonuses += "• ⚡ Sonic Speed (+500💎)<br>"; }
+            if((user.bestStreak||0) >= 15 && !user.qStreak15) { user.qStreak15 = true; user.gems += 1500; bonuses += "• 🔥 Streak Lord (+1500💎)<br>"; }
+            // Gem earning
+            const gemMult = getSkillGemMult();
+            const ev2 = getSeasonalEvent();
+            const totalGemMult = gemMult * (ev2.gemMult || 1);
+            let gemEarned = 0;
+            if(game.correct === 10) { const g=Math.ceil(2*totalGemMult); gemEarned+=g; bonuses+=`• 🎯 Perfect Round (+${g}💎)<br>`; }
+            const today = new Date().toISOString().slice(0,10);
+            if(user.lastGemDay !== today) { user.lastGemDay=today; const g=Math.ceil(3*totalGemMult); gemEarned+=g; bonuses+=`• 🌅 First Win Today (+${g}💎)<br>`; }
+            if(game.streak >= 10) { const g=Math.ceil(5*totalGemMult); gemEarned+=g; bonuses+=`• 🔥 Hot Streak x${game.streak} (+${g}💎)<br>`; }
+            if(user.skills && user.skills.gem_vault && user.rounds % 3 === 0) { const g=Math.ceil(1*totalGemMult); gemEarned+=g; bonuses+=`• 💜 Gem Vault (+${g}💎)<br>`; }
+            if(gemEarned > 0) user.gems += gemEarned;
+            if(bonusCoins > 0) bonuses += `• ✨ Season &amp; Skill Bonus (+${bonusCoins.toLocaleString()} Gold)<br>`;
             document.getElementById('reward-title').innerText = "MISSION COMPLETE";
             document.getElementById('reward-icon').innerText = "🏆";
             document.getElementById('reward-desc').innerHTML = `SCORE: ${game.correct}/10<br>TIME: ${Math.floor(time)}s<br>EARNED: ${Math.floor(game.coins).toLocaleString()} Gold<br><br><span style="color:var(--gem)">${bonuses}</span>`;
@@ -2990,13 +3088,27 @@
             const ev = getSeasonalEvent();
             game.coins = Math.round(game.coins * skillMult * ev.coinMult);
             if (game.streak > (user.bestStreak || 0)) user.bestStreak = game.streak;
+            if (game.correct > (user.gauntletBest || 0)) user.gauntletBest = game.correct;
             applySeasonalFlags();
             user.coins += game.coins;
             user.weeklyScore = (user.weeklyScore || 0) + Math.floor(game.coins);
             user.weekKey = currentWeekKey();
+            // Elite challenge: Gauntlet Warrior
+            let gBonuses = "";
+            if ((user.gauntletBest||0) >= 15 && !user.qGauntlet15) { user.qGauntlet15=true; user.gems+=1200; gBonuses+="• 💀 Gauntlet Warrior (+1200💎)<br>"; }
+            // Gem earning
+            const gemMult2 = getSkillGemMult();
+            const totalGemMult2 = gemMult2 * (ev.gemMult || 1);
+            let gemEarned2 = 0;
+            if (game.correct >= 10) { const g=Math.ceil(2*totalGemMult2); gemEarned2+=g; gBonuses+=`• 🔥 Gauntlet Survivor (+${g}💎)<br>`; }
+            if (game.correct >= 20) { const g=Math.ceil(5*totalGemMult2); gemEarned2+=g; gBonuses+=`• 💀 Gauntlet Beast (+${g}💎)<br>`; }
+            const tod = new Date().toISOString().slice(0,10);
+            if (user.lastGemDay !== tod) { user.lastGemDay=tod; const g=Math.ceil(3*totalGemMult2); gemEarned2+=g; gBonuses+=`• 🌅 First Game Today (+${g}💎)<br>`; }
+            if (gemEarned2 > 0) user.gems += gemEarned2;
+            const descExtra = gBonuses ? `<br><span style="color:var(--gem)">${gBonuses}</span>` : '';
             document.getElementById('reward-title').innerText = "GAUNTLET FAILED";
             document.getElementById('reward-icon').innerText = "💀";
-            document.getElementById('reward-desc').innerHTML = `SURVIVED: ${game.correct} Questions<br>EARNED: ${Math.floor(game.coins).toLocaleString()} Gold`;
+            document.getElementById('reward-desc').innerHTML = `SURVIVED: ${game.correct} Questions<br>EARNED: ${Math.floor(game.coins).toLocaleString()} Gold${descExtra}`;
             const ov = document.getElementById('reward-overlay');
             ov.classList.remove('hidden');
             setTimeout(()=>ov.classList.add('active'), 10);
@@ -3004,6 +3116,16 @@
             save();
             submitScore();
             setTimeout(() => checkAchievements(), 800);
+        }
+
+        function checkSpaceChainChallenges() {
+            if (!user) return;
+            let unlocked = "";
+            if ((user.spaceMaxWave||0) >= 5  && !user.qSpace5)  { user.qSpace5=true;  user.gems+=800;  unlocked+="• 🛸 Space Pioneer (+800💎)\n"; }
+            if ((user.spaceMaxWave||0) >= 15 && !user.qSpace15) { user.qSpace15=true; user.gems+=3000; unlocked+="• 🌌 Space Legend (+3000💎)\n"; }
+            if ((user.chainLevel||0) >= 10   && !user.qChain10) { user.qChain10=true; user.gems+=600;  unlocked+="• ⛓️ Chain Initiate (+600💎)\n"; }
+            if ((user.chainLevel||0) >= 25   && !user.qChain25) { user.qChain25=true; user.gems+=2000; unlocked+="• 🌐 Chain Expert (+2000💎)\n"; }
+            if (unlocked) { save(); updateUI(); showToast(unlocked.trim().split('\n')[0] + ' — Challenge Complete!'); }
         }
 
         function showShop(tab) {
@@ -3476,24 +3598,49 @@
             const m = now.getMonth() + 1;
             const d = now.getDate();
             const y = now.getFullYear();
-            if (y === 2026 && m === 5 && d <= 7) {
-                return { id: 'anniversary', name: 'Anniversary Week', bonus: '+50% Coins · Double Gems · Exclusive Badge',
-                    icon: '🎂', color: 'linear-gradient(135deg,#7c3aed,#ec4899)', text: 'white', coinMult: 1.5, gemMult: 2.0, flag: '_anniversary' };
-            }
-            if (m >= 3 && m <= 5) {
-                return { id: 'spring', name: 'Spring Bloom Festival', bonus: '+20% Coin Bonus Active',
-                    icon: '🌸', color: 'linear-gradient(135deg,#059669,#34d399)', text: 'white', coinMult: 1.2, gemMult: 1.0, flag: '_spring2026' };
-            }
-            if (m >= 6 && m <= 8) {
-                return { id: 'summer', name: 'Summer Blaze', bonus: '+30% Coin Bonus Active',
-                    icon: '☀️', color: 'linear-gradient(135deg,#d97706,#f59e0b)', text: 'white', coinMult: 1.3, gemMult: 1.0, flag: null };
-            }
-            if (m >= 9 && m <= 11) {
-                return { id: 'autumn', name: 'Harvest Season', bonus: '+25% Coin Bonus Active',
-                    icon: '🍂', color: 'linear-gradient(135deg,#b45309,#d97706)', text: 'white', coinMult: 1.25, gemMult: 1.0, flag: null };
-            }
-            return { id: 'winter', name: 'Frost Festival', bonus: '+15% Coins · Gem Drops Boosted',
-                icon: '❄️', color: 'linear-gradient(135deg,#1d4ed8,#3b82f6)', text: 'white', coinMult: 1.15, gemMult: 1.2, flag: null };
+            // ── Special week events (highest priority) ─────────────────────────────
+            // Anniversary (May 1-7)
+            if (m === 5 && d <= 7) return {
+                id:'anniversary', name:'Anniversary Week', tag:'SPECIAL', bonus:'+50% Coins · Double Gems · Exclusive Badge',
+                icon:'🎂', color:'linear-gradient(135deg,#7c3aed,#ec4899,#f43f5e)', coinMult:1.5, gemMult:2.0, flag:'_anniversary' };
+            // New Year (Dec 31 – Jan 2)
+            if ((m === 12 && d >= 31) || (m === 1 && d <= 2)) return {
+                id:'newyear', name:"New Year's Countdown", tag:'SPECIAL', bonus:'+50% Coins · Double Gems · Fresh Start',
+                icon:'🎆', color:'linear-gradient(135deg,#0f172a,#6366f1,#a78bfa)', coinMult:1.5, gemMult:2.0, flag:null };
+            // Christmas (Dec 18-26)
+            if (m === 12 && d >= 18 && d <= 26) return {
+                id:'christmas', name:'Christmas Blizzard', tag:'SPECIAL', bonus:'+40% Coins · Double Gems · Ho Ho Ho',
+                icon:'🎄', color:'linear-gradient(135deg,#14532d,#15803d,#dc2626)', coinMult:1.4, gemMult:2.0, flag:null };
+            // Halloween (Oct 25-31)
+            if (m === 10 && d >= 25) return {
+                id:'halloween', name:'Halloween Haunt', tag:'SPECIAL', bonus:'+40% Coins · Spooky Gem Storm',
+                icon:'🎃', color:'linear-gradient(135deg,#431407,#9a3412,#ea580c)', coinMult:1.4, gemMult:2.0, flag:null };
+            // Easter 2025: Apr 20 | 2026: Apr 5 | 2027: Mar 28
+            const easterDates = { 2025:[4,18,21], 2026:[4,3,6], 2027:[3,26,29] };
+            const ed = easterDates[y];
+            if (ed && m === ed[0] && d >= ed[1] && d <= ed[2]) return {
+                id:'easter', name:'Easter Egg Rush', tag:'SPECIAL', bonus:'+35% Coins · 1.5× Gem Drops',
+                icon:'🐣', color:'linear-gradient(135deg,#92400e,#d97706,#fbbf24)', coinMult:1.35, gemMult:1.5, flag:null };
+            // Valentine's (Feb 10-16)
+            if (m === 2 && d >= 10 && d <= 16) return {
+                id:'valentine', name:"Valentine's Fever", tag:'SPECIAL', bonus:'+25% Coins · Love-Powered Gems',
+                icon:'💘', color:'linear-gradient(135deg,#9d174d,#db2777,#f472b6)', coinMult:1.25, gemMult:1.5, flag:null };
+            // ── Monthly events (fallback, one per calendar month) ───────────────────
+            const monthly = [
+                { id:'jan',  name:'Frostbite Season',    icon:'❄️',  color:'linear-gradient(135deg,#1d4ed8,#3b82f6,#60a5fa)', bonus:'+15% Coins · Ice-Cold Rewards',    coinMult:1.15, gemMult:1.1  },
+                { id:'feb',  name:'Love Letter Month',   icon:'💕',  color:'linear-gradient(135deg,#831843,#ec4899,#f9a8d4)', bonus:'+20% Coins · Heartfelt Gems',      coinMult:1.20, gemMult:1.2  },
+                { id:'mar',  name:'Spring Awakening',    icon:'🌱',  color:'linear-gradient(135deg,#14532d,#16a34a,#86efac)', bonus:'+20% Coins · Fresh Growth',        coinMult:1.20, gemMult:1.0  },
+                { id:'apr',  name:'April Showers',       icon:'🌧️', color:'linear-gradient(135deg,#1e3a5f,#2563eb,#60a5fa)', bonus:'+20% Coins · Storm the Leaderboard',coinMult:1.20, gemMult:1.0  },
+                { id:'may',  name:'Blossom Season',      icon:'🌸',  color:'linear-gradient(135deg,#059669,#34d399,#6ee7b7)', bonus:'+20% Coins · Petals of Power',     coinMult:1.20, gemMult:1.0, flag:'_spring2026' },
+                { id:'jun',  name:'Summer Wave',         icon:'🌊',  color:'linear-gradient(135deg,#0c4a6e,#0284c7,#38bdf8)', bonus:'+25% Coins · Ride the Wave',       coinMult:1.25, gemMult:1.0  },
+                { id:'jul',  name:'Midsummer Blaze',     icon:'🔥',  color:'linear-gradient(135deg,#7c2d12,#ea580c,#fb923c)', bonus:'+30% Coins · 1.2× Gem Drops',     coinMult:1.30, gemMult:1.2  },
+                { id:'aug',  name:'Golden Coast',        icon:'⛱️', color:'linear-gradient(135deg,#78350f,#b45309,#f59e0b)', bonus:'+25% Coins · Golden Summer',       coinMult:1.25, gemMult:1.0  },
+                { id:'sep',  name:"Scholar's Season",    icon:'📚',  color:'linear-gradient(135deg,#1e1b4b,#4338ca,#818cf8)', bonus:'+20% Coins · Study to Victory',    coinMult:1.20, gemMult:1.0  },
+                { id:'oct',  name:'Harvest Moon',        icon:'🍂',  color:'linear-gradient(135deg,#78350f,#b45309,#d97706)', bonus:'+25% Coins · 1.15× Gem Drops',    coinMult:1.25, gemMult:1.15 },
+                { id:'nov',  name:'Autumn Glow',         icon:'🍁',  color:'linear-gradient(135deg,#7c2d12,#c2410c,#f97316)', bonus:'+20% Coins · Warm Harvest',        coinMult:1.20, gemMult:1.15 },
+                { id:'dec',  name:'Winter Wonderland',   icon:'🎁',  color:'linear-gradient(135deg,#1e3a5f,#1d4ed8,#6366f1)', bonus:'+20% Coins · 1.2× Gem Drops',     coinMult:1.20, gemMult:1.2  },
+            ];
+            return { tag:'MONTHLY', ...monthly[m-1] };
         }
 
         function applySeasonalFlags() {
@@ -3503,12 +3650,14 @@
 
         function renderSeasonalBanner() {
             const ev = getSeasonalEvent();
-            return `<div class="season-banner" style="background:${ev.color};color:${ev.text};">
+            const tagColor = ev.tag === 'SPECIAL' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.15)';
+            return `<div class="season-banner" style="background:${ev.color};color:white;">
                 <div class="season-banner-icon">${ev.icon}</div>
-                <div>
+                <div style="flex:1;min-width:0;">
                     <div class="season-banner-name">${ev.name}</div>
                     <div class="season-banner-bonus">${ev.bonus}</div>
                 </div>
+                <div class="season-banner-tag" style="background:${tagColor};">${ev.tag || 'MONTHLY'}</div>
             </div>`;
         }
 
@@ -3738,12 +3887,12 @@
                 const locked   = !owned && !reqMet;
                 const isLeg    = s.tier === 3;
 
-                let fill, stroke, sw, glowFilter;
-                if (owned && isLeg)       { fill='url(#legend-g)';    stroke='#fbbf24'; sw=3;   glowFilter=' filter="url(#glow-leg)"'; }
-                else if (owned)           { fill='url(#owned-g)';     stroke='#34d399'; sw=2.5; glowFilter=' filter="url(#glow-g)"'; }
-                else if (available && isLeg){ fill='url(#legend-av-g)'; stroke='#f59e0b'; sw=2.5; glowFilter=' filter="url(#glow-leg)"'; }
-                else if (available)       { fill='url(#avail-g)';     stroke='#818cf8'; sw=2.5; glowFilter=' filter="url(#glow-a)"'; }
-                else                      { fill='#080f1e';            stroke='#1e3a5f'; sw=1.5; glowFilter=''; }
+                let fill, stroke, sw, glowStyle = '';
+                if (owned && isLeg)        { fill='url(#legend-g)';    stroke='#fbbf24'; sw=3;   glowStyle='filter:drop-shadow(0 0 14px #fbbf24) drop-shadow(0 0 28px #d97706);'; }
+                else if (owned)            { fill='url(#owned-g)';     stroke='#34d399'; sw=2.5; glowStyle='filter:drop-shadow(0 0 10px #34d399) drop-shadow(0 0 22px #10b981);'; }
+                else if (available && isLeg){ fill='url(#legend-av-g)'; stroke='#f59e0b'; sw=2.5; glowStyle='filter:drop-shadow(0 0 9px #f59e0b) drop-shadow(0 0 20px #d97706);'; }
+                else if (available)        { fill='url(#avail-g)';     stroke='#818cf8'; sw=2.5; glowStyle='filter:drop-shadow(0 0 7px #818cf8) drop-shadow(0 0 16px #6366f1);'; }
+                else                       { fill='#080f1e';            stroke='#1e3a5f'; sw=1.5; }
 
                 const opacity  = locked ? 0.38 : 1;
                 const cursor   = locked ? 'not-allowed' : owned ? 'default' : 'pointer';
@@ -3752,7 +3901,7 @@
                 const innerRing= owned ? 'rgba(255,255,255,0.13)' : available ? (isLeg ? 'rgba(251,191,36,0.2)' : 'rgba(129,140,248,0.2)') : 'rgba(255,255,255,0.02)';
                 const nodeR    = isLeg ? R+4 : R;
 
-                svg += `<g class="st-node" onclick="selectSkillNode('${s.id}')" style="cursor:${cursor};opacity:${opacity};"${glowFilter}>`;
+                svg += `<g class="st-node" onclick="selectSkillNode('${s.id}')" style="cursor:${cursor};opacity:${opacity};${glowStyle}">`;
 
                 // Outer pulse ring (available only)
                 if (available) {
@@ -4189,7 +4338,7 @@
     <nav id="bottom-nav" class="bottom-nav" style="display:none">
 
         <div class="bn-item" onclick="if(!user)return;navRipple(this,event);showPlay()">
-            <div class="bn-icon">🎮</div>
+            <div class="bn-icon"><span class="material-symbols-rounded" style="color:#a78bfa;">sports_esports</span></div>
             <div class="bn-label">Play</div>
             <div class="bn-tooltip">
                 <span class="bn-tt-icon">🎮</span>
@@ -4199,7 +4348,7 @@
         </div>
 
         <div class="bn-item" onclick="if(!user)return;navRipple(this,event);showShop()">
-            <div class="bn-icon">🔮</div>
+            <div class="bn-icon"><span class="material-symbols-rounded" style="color:#fbbf24;">storefront</span></div>
             <div class="bn-label">Shop</div>
             <div class="bn-tooltip">
                 <span class="bn-tt-icon">🔮</span>
@@ -4208,10 +4357,10 @@
             </div>
         </div>
 
-        <div class="bn-home-orb" onclick="if(!user)return;showDashboard()">🏠</div>
+        <div class="bn-home-orb" onclick="if(!user)return;showDashboard()"><span class="material-symbols-rounded">home</span></div>
 
         <div class="bn-item" onclick="if(!user)return;navRipple(this,event);showLeaderboard()">
-            <div class="bn-icon">🏆</div>
+            <div class="bn-icon"><span class="material-symbols-rounded" style="color:#34d399;">emoji_events</span></div>
             <div class="bn-label">League</div>
             <div class="bn-tooltip">
                 <span class="bn-tt-icon">🏆</span>
@@ -4221,7 +4370,7 @@
         </div>
 
         <div class="bn-item" onclick="if(!user)return;navRipple(this,event);showAchievements()" style="position:relative;">
-            <div class="bn-icon">🏅</div>
+            <div class="bn-icon"><span class="material-symbols-rounded" style="color:#f472b6;">military_tech</span></div>
             <div id="achieve-nav-badge" class="bn-badge hidden">0</div>
             <div class="bn-label">Trophies</div>
             <div class="bn-tooltip">
