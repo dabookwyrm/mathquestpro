@@ -619,6 +619,7 @@ function cwCheck() {
             if (typeof applySeasonalFlags === 'function') applySeasonalFlags();
             save();
             setTimeout(() => { if (typeof checkAchievements === 'function') checkAchievements(); }, 600);
+            setTimeout(() => { if (typeof checkSpaceChainChallenges === 'function') checkSpaceChainChallenges(); }, 800);
         }
         if (cw.streak > 1 && cw.streak % 3 === 0) cwFlashMult('STREAK x' + cw.streak);
         playCorrect();
