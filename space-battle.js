@@ -367,6 +367,7 @@
                     save();
                 }
                 setTimeout(() => checkAchievements(), 1200);
+                setTimeout(() => { if (typeof checkSpaceChainChallenges === 'function') checkSpaceChainChallenges(); }, 1400);
             }
             sgDeathSpectacle();
             const arena=document.getElementById('sg-arena');
