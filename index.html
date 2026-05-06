@@ -1592,34 +1592,44 @@
         body.cos-neon {
             background: #08060E !important;
         }
+        /* GPU-composited neon pulse — filter:drop-shadow animates on compositor thread,
+           unlike box-shadow which forces a repaint every frame */
         @keyframes neonTubePulse {
             0%,100% {
-                box-shadow:
-                    0 0 3px #fff, 0 0 8px #fff,
-                    0 0 16px #A78BFA, 0 0 35px #A78BFA,
-                    0 0 70px #7C3AED, 0 0 120px rgba(124,58,237,0.35);
+                filter:
+                    drop-shadow(0 0 3px #fff)
+                    drop-shadow(0 0 8px #A78BFA)
+                    drop-shadow(0 0 18px #7C3AED);
             }
             50% {
-                box-shadow:
-                    0 0 5px #fff, 0 0 14px #fff,
-                    0 0 26px #A78BFA, 0 0 55px #A78BFA,
-                    0 0 100px #7C3AED, 0 0 170px rgba(124,58,237,0.5);
+                filter:
+                    drop-shadow(0 0 6px #fff)
+                    drop-shadow(0 0 16px #A78BFA)
+                    drop-shadow(0 0 36px #7C3AED)
+                    drop-shadow(0 0 55px rgba(124,58,237,0.6));
             }
         }
         @keyframes neonHudTube {
-            0%,100% { box-shadow: 0 0 3px #fff, 0 0 8px #06B6D4, 0 0 22px #06B6D4, 0 0 50px rgba(6,182,212,0.55); }
-            50%      { box-shadow: 0 0 5px #fff, 0 0 14px #06B6D4, 0 0 38px #06B6D4, 0 0 80px rgba(6,182,212,0.7); }
+            0%,100% { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px #06B6D4) drop-shadow(0 0 22px rgba(6,182,212,0.6)); }
+            50%      { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px #06B6D4) drop-shadow(0 0 40px rgba(6,182,212,0.8)); }
         }
         body.cos-neon .card {
             background: #06040E;
             border: 2.5px solid rgba(255,255,255,0.88);
             color: #fff;
+            /* Static thin border glow — no animation cost */
+            box-shadow: 0 0 4px #fff, 0 0 12px rgba(167,139,250,0.5);
             animation: neonTubePulse 2.5s ease-in-out infinite;
+            will-change: filter;
+            transform: translateZ(0);
         }
         body.cos-neon .hud {
             background: #06040E;
             border: 2px solid rgba(255,255,255,0.85);
+            box-shadow: 0 0 4px #fff, 0 0 12px rgba(6,182,212,0.4);
             animation: neonHudTube 2s ease-in-out infinite;
+            will-change: filter;
+            transform: translateZ(0);
         }
         body.cos-neon h1, body.cos-neon h2, body.cos-neon h3,
         body.cos-neon .rank-title, body.cos-neon .shop-title {
