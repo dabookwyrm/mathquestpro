@@ -1560,6 +1560,61 @@
         }
         body.god .mat-strip { background: linear-gradient(180deg, #1F2937, #111827); color: #E2E8F0; }
 
+        /* === COSMETICS === */
+        body.cos-glow .hud {
+            box-shadow: 0 0 22px rgba(251,191,36,0.5), 0 10px 30px -12px rgba(15,23,42,0.15);
+            border-color: rgba(251,191,36,0.4);
+            background: rgba(255,251,235,0.78);
+        }
+        body.cos-glow .card {
+            box-shadow: 0 0 55px rgba(251,191,36,0.22), 0 30px 80px -20px rgba(15,23,42,0.18), 0 8px 24px -8px rgba(15,23,42,0.10), 0 0 60px var(--accent-glow);
+        }
+        body.cos-glow .bottom-nav { box-shadow: 0 -4px 22px rgba(251,191,36,0.22); border-top-color: rgba(251,191,36,0.25); }
+        body.cos-glow .rank-section { background: linear-gradient(180deg, #FFFBEB, #FEF3C7) !important; }
+
+        body.cos-neon .card {
+            border: 1.5px solid rgba(139,92,246,0.6);
+            box-shadow: 0 0 0 1px rgba(139,92,246,0.2), 0 0 28px rgba(139,92,246,0.15), 0 30px 80px -20px rgba(15,23,42,0.18), 0 8px 24px -8px rgba(15,23,42,0.10);
+        }
+        body.cos-neon .hud { border-color: rgba(6,182,212,0.55); box-shadow: 0 0 16px rgba(6,182,212,0.28), 0 10px 30px -12px rgba(15,23,42,0.15); }
+        body.cos-neon .bottom-nav { border-top: 1.5px solid rgba(139,92,246,0.5); box-shadow: 0 -6px 26px rgba(139,92,246,0.2); }
+        body.cos-neon .shop-card { border-color: rgba(139,92,246,0.45) !important; }
+        body.cos-neon .quest-box { border-color: rgba(6,182,212,0.45) !important; }
+        body.cos-neon .topic-box { border: 1px solid rgba(6,182,212,0.3); }
+
+        body.cos-void {
+            --bg-1: #0D0B1E; --bg-2: #130E28; --bg-3: #0A1020;
+            --card-bg: #100E24;
+            --card-text: #DDD6FE;
+            --card-border: rgba(139,92,246,0.18);
+            --accent-glow: rgba(139,92,246,0.45);
+            --muted: #A78BFA;
+            --line: #1F1A38;
+        }
+        body.cos-void .card { background: linear-gradient(160deg, #100E24, #150F2E); color: #DDD6FE; }
+        body.cos-void .hud { background: rgba(16,14,36,0.88); border-color: rgba(139,92,246,0.25); }
+        body.cos-void .bottom-nav { background: linear-gradient(180deg, #100E24, #0D0B1E); border-top-color: rgba(139,92,246,0.22); }
+        body.cos-void .rank-section { background: linear-gradient(180deg, #0D0B1E, #100E24) !important; }
+        body.cos-void .topic-box { background: rgba(139,92,246,0.12); }
+        body.cos-void .quest-box { background: linear-gradient(135deg, rgba(139,92,246,0.14), rgba(99,102,241,0.07)) !important; border-color: rgba(139,92,246,0.3) !important; }
+        body.cos-void .shop-card { background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.25) !important; }
+        body.cos-void .section-label { color: #A78BFA; }
+
+        body.cos-chrome .card {
+            background: linear-gradient(155deg, #F8FAFC 0%, #E8EBF2 50%, #F4F6FA 100%);
+            border-color: rgba(148,163,184,0.5);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.95) inset, 0 30px 80px -20px rgba(15,23,42,0.12), 0 0 0 1px rgba(148,163,184,0.18);
+        }
+        body.cos-chrome .hud {
+            background: linear-gradient(90deg, rgba(241,245,249,0.94), rgba(226,232,240,0.94));
+            border-color: rgba(148,163,184,0.4);
+            box-shadow: 0 4px 16px rgba(148,163,184,0.28);
+        }
+        body.cos-chrome .bottom-nav { background: linear-gradient(180deg, #F1F5F9, #E2E8F0); border-top-color: rgba(148,163,184,0.35); }
+        body.cos-chrome .rank-section { background: linear-gradient(180deg, #F8FAFC, #EEF2F7) !important; }
+        body.cos-chrome .shop-card { background: linear-gradient(135deg, #F8FAFC, #F1F5F9); border-color: rgba(148,163,184,0.35) !important; }
+        body.cos-chrome .quest-box { background: linear-gradient(135deg, #F8FAFC, #F1F5F9) !important; border-color: rgba(148,163,184,0.3) !important; }
+
         .section-label {
             font-family: var(--font-display);
             font-size: 0.74rem;
@@ -2504,6 +2559,7 @@
 
             const cur = RANKS[user.rankIdx], next = RANKS[user.rankIdx+1];
             document.body.className = cur.cls;
+            if(user.activeCosmetic) document.body.classList.add(user.activeCosmetic.replace('cos_','cos-'));
             document.getElementById('rank-icon').innerText = cur.icon;
             document.getElementById('rank-title').innerHTML = `<small class="rank-group">${cur.group}</small>${cur.title}`;
             if(next) {
@@ -3202,17 +3258,28 @@
                 </div>`;
             });
 
-            html += `<p class="section-label" style="color:#F472B6;">Cosmetics</p>`;
+            html += `<p class="section-label" style="color:#F472B6;">Cosmetics · Tap to equip/unequip</p>`;
             const ownedCos = user.cosmetics || {};
+            const activeCos = user.activeCosmetic || null;
             html += cosmetics.map(cos => {
                 const owned = !!ownedCos[cos.id];
-                return `<div class="shop-card" onclick="${owned ? '' : `buyCosmetic('${cos.id}', ${cos.price})`}" style="display:flex; align-items:center; gap:18px; border-color:rgba(236,72,153,0.35); background:linear-gradient(135deg, rgba(244,114,182,0.08), rgba(99,102,241,0.06)); opacity:${owned ? 0.55 : 1}; cursor:${owned ? 'default' : 'pointer'};">
+                const active = activeCos === cos.id;
+                const borderCol = active ? 'rgba(236,72,153,0.8)' : 'rgba(236,72,153,0.35)';
+                const bgStyle = active
+                    ? 'background:linear-gradient(135deg,rgba(244,114,182,0.18),rgba(99,102,241,0.12));'
+                    : 'background:linear-gradient(135deg,rgba(244,114,182,0.07),rgba(99,102,241,0.04));';
+                const badge = active
+                    ? '<span style="background:#EC4899;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">EQUIPPED</span>'
+                    : owned
+                        ? '<span style="color:var(--muted);font-size:0.73rem;margin-left:4px;">(tap to equip)</span>'
+                        : '';
+                return `<div class="shop-card" onclick="buyCosmetic('${cos.id}', ${cos.price})" style="display:flex;align-items:center;gap:18px;border-color:${borderCol};${bgStyle}cursor:pointer;transition:all 0.2s;">
                     <span style="font-size:2.4rem;">${cos.icon}</span>
-                    <div style="text-align:left; flex-grow:1;">
-                        <h3 style="margin:0; font-size:1rem;">${cos.name}${owned ? ' <span style="color:var(--muted);font-size:0.73rem;">(OWNED)</span>' : ''}</h3>
-                        <p style="margin:3px 0 0 0; font-size:0.76rem; color:var(--muted); font-weight:500;">${cos.desc}</p>
+                    <div style="text-align:left;flex-grow:1;">
+                        <h3 style="margin:0;font-size:1rem;">${cos.name}${badge}</h3>
+                        <p style="margin:3px 0 0 0;font-size:0.76rem;color:var(--muted);font-weight:500;">${cos.desc}</p>
                     </div>
-                    <div style="font-weight:700; font-family:var(--font-mono); color:var(--gem);">${owned ? '✓' : cos.price + '💎'}</div>
+                    <div style="font-weight:700;font-family:var(--font-mono);color:${owned ? (active ? '#EC4899' : 'var(--muted)') : 'var(--gem)'};">${owned ? (active ? '✓' : '⊙') : cos.price + '💎'}</div>
                 </div>`;
             }).join('');
 
@@ -3297,15 +3364,29 @@
 
         function buyCosmetic(id, price) {
             if(!user.cosmetics) user.cosmetics = {};
-            if(user.cosmetics[id]) return showToast("Already owned!");
+            if(user.cosmetics[id]) return equipCosmetic(id);
             if(user.gems < price) { playWrong(); return showToast("Need more gems!"); }
             user.gems -= price;
             user.cosmetics[id] = true;
-            if(!user.activeCosmetic) user.activeCosmetic = id;
+            user.activeCosmetic = id;
             flash();
             burst(12, "✨", "hud-gems");
             playPurchase();
-            showToast("Cosmetic unlocked!");
+            showToast("Cosmetic equipped!");
+            save();
+            updateUI();
+            showShop();
+        }
+
+        function equipCosmetic(id) {
+            if(!user.cosmetics || !user.cosmetics[id]) return;
+            if(user.activeCosmetic === id) {
+                user.activeCosmetic = null;
+                showToast("Cosmetic removed");
+            } else {
+                user.activeCosmetic = id;
+                showToast("Cosmetic equipped!");
+            }
             save();
             updateUI();
             showShop();
