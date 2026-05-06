@@ -1588,73 +1588,112 @@
         body.cos-glow .shop-card { box-shadow: 0 0 12px rgba(251,191,36,0.2); }
         body.cos-glow .bn-home-orb { box-shadow: 0 0 22px rgba(251,191,36,0.7), 0 0 40px rgba(251,191,36,0.35); }
 
-        /* -- Neon Frame -- */
-        @keyframes neonPulse {
-            0%,100% { box-shadow: 0 0 8px #A78BFA, 0 0 24px #A78BFA, 0 0 55px #7C3AED, inset 0 0 8px rgba(167,139,250,0.1); }
-            50%      { box-shadow: 0 0 14px #A78BFA, 0 0 40px #A78BFA, 0 0 90px #7C3AED, 0 0 130px rgba(124,58,237,0.35), inset 0 0 14px rgba(167,139,250,0.15); }
+        /* -- Neon Frame (real neon sign look) -- */
+        body.cos-neon {
+            background: #08060E !important;
         }
-        @keyframes neonHudPulse {
-            0%,100% { box-shadow: 0 0 8px #06B6D4, 0 0 20px rgba(6,182,212,0.5); }
-            50%      { box-shadow: 0 0 16px #06B6D4, 0 0 40px rgba(6,182,212,0.8), 0 0 60px rgba(6,182,212,0.3); }
+        @keyframes neonTubePulse {
+            0%,100% {
+                box-shadow:
+                    0 0 3px #fff, 0 0 8px #fff,
+                    0 0 16px #A78BFA, 0 0 35px #A78BFA,
+                    0 0 70px #7C3AED, 0 0 120px rgba(124,58,237,0.35);
+            }
+            50% {
+                box-shadow:
+                    0 0 5px #fff, 0 0 14px #fff,
+                    0 0 26px #A78BFA, 0 0 55px #A78BFA,
+                    0 0 100px #7C3AED, 0 0 170px rgba(124,58,237,0.5);
+            }
+        }
+        @keyframes neonHudTube {
+            0%,100% { box-shadow: 0 0 3px #fff, 0 0 8px #06B6D4, 0 0 22px #06B6D4, 0 0 50px rgba(6,182,212,0.55); }
+            50%      { box-shadow: 0 0 5px #fff, 0 0 14px #06B6D4, 0 0 38px #06B6D4, 0 0 80px rgba(6,182,212,0.7); }
         }
         body.cos-neon .card {
-            border: 2px solid #A78BFA;
-            animation: neonPulse 2s ease-in-out infinite;
-            background: rgba(15,10,35,0.04);
+            background: #06040E;
+            border: 2.5px solid rgba(255,255,255,0.88);
+            color: #fff;
+            animation: neonTubePulse 2.5s ease-in-out infinite;
         }
         body.cos-neon .hud {
-            border: 1.5px solid #06B6D4;
-            animation: neonHudPulse 1.8s ease-in-out infinite;
-            background: rgba(6,182,212,0.06);
+            background: #06040E;
+            border: 2px solid rgba(255,255,255,0.85);
+            animation: neonHudTube 2s ease-in-out infinite;
         }
-        body.cos-neon .bottom-nav {
-            border-top: 2px solid #A78BFA;
-            box-shadow: 0 -8px 30px #A78BFA, 0 -18px 60px rgba(124,58,237,0.45);
-        }
-        body.cos-neon .bn-home-orb {
-            box-shadow: 0 0 18px #A78BFA, 0 0 40px rgba(167,139,250,0.6);
+        body.cos-neon h1, body.cos-neon h2, body.cos-neon h3,
+        body.cos-neon .rank-title, body.cos-neon .shop-title {
+            color: #fff;
+            text-shadow: 0 0 4px #fff, 0 0 10px #A78BFA, 0 0 25px #A78BFA, 0 0 55px #7C3AED;
         }
         body.cos-neon .main-btn {
-            box-shadow: 0 0 12px #A78BFA, 0 0 28px rgba(167,139,250,0.5);
-            text-shadow: 0 0 10px rgba(255,255,255,0.9);
-            border: 1.5px solid rgba(167,139,250,0.6) !important;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.85) !important;
+            color: #fff;
+            text-shadow: 0 0 6px #fff, 0 0 14px #A78BFA;
+            box-shadow: 0 0 4px #fff, 0 0 10px #A78BFA, 0 0 25px #A78BFA, 0 0 50px rgba(124,58,237,0.5);
         }
+        /* Alternating neon tube colors on answer buttons — cyan / pink / purple */
         body.cos-neon .mc-btn {
-            border: 1.5px solid #A78BFA !important;
-            box-shadow: 0 0 8px rgba(167,139,250,0.6), 0 0 18px rgba(167,139,250,0.3);
-            text-shadow: 0 0 8px #A78BFA;
+            background: transparent !important;
+            color: #fff !important;
+            border: 2px solid rgba(255,255,255,0.8) !important;
+            box-shadow: 0 0 3px #fff, 0 0 8px #A78BFA, 0 0 18px #A78BFA, 0 0 35px rgba(124,58,237,0.45);
+            text-shadow: 0 0 4px #fff, 0 0 10px #A78BFA;
         }
-        body.cos-neon .mc-btn:hover {
-            box-shadow: 0 0 14px #A78BFA, 0 0 32px rgba(167,139,250,0.5);
+        body.cos-neon .mc-btn:nth-child(2) {
+            box-shadow: 0 0 3px #fff, 0 0 8px #06B6D4, 0 0 18px #06B6D4, 0 0 35px rgba(6,182,212,0.45);
+            text-shadow: 0 0 4px #fff, 0 0 10px #06B6D4;
+            border-color: rgba(255,255,255,0.8) !important;
+        }
+        body.cos-neon .mc-btn:nth-child(3) {
+            box-shadow: 0 0 3px #fff, 0 0 8px #F472B6, 0 0 18px #F472B6, 0 0 35px rgba(244,114,182,0.45);
+            text-shadow: 0 0 4px #fff, 0 0 10px #F472B6;
+        }
+        body.cos-neon .mc-btn:nth-child(4) {
+            box-shadow: 0 0 3px #fff, 0 0 8px #34D399, 0 0 18px #34D399, 0 0 35px rgba(52,211,153,0.45);
+            text-shadow: 0 0 4px #fff, 0 0 10px #34D399;
         }
         body.cos-neon .shop-card {
-            border: 1.5px solid #A78BFA !important;
-            box-shadow: 0 0 10px rgba(167,139,250,0.4), 0 0 22px rgba(167,139,250,0.15);
+            background: #08050F;
+            border: 1.5px solid rgba(255,255,255,0.75) !important;
+            box-shadow: 0 0 3px #fff, 0 0 8px rgba(167,139,250,0.5), 0 0 20px rgba(124,58,237,0.25);
+            color: #fff;
         }
         body.cos-neon .shop-tab {
-            border: 1px solid rgba(167,139,250,0.4);
-            box-shadow: 0 0 6px rgba(167,139,250,0.3);
+            border: 1.5px solid rgba(255,255,255,0.7);
+            background: transparent;
+            box-shadow: 0 0 4px #fff, 0 0 10px rgba(167,139,250,0.4);
+            color: #fff;
         }
         body.cos-neon .shop-tab.active {
-            box-shadow: 0 0 12px #A78BFA, 0 0 24px rgba(167,139,250,0.4);
+            box-shadow: 0 0 5px #fff, 0 0 14px #A78BFA, 0 0 28px rgba(124,58,237,0.5);
         }
         body.cos-neon .quest-box {
-            border: 1.5px solid #06B6D4 !important;
-            box-shadow: 0 0 14px rgba(6,182,212,0.4), 0 0 30px rgba(6,182,212,0.15);
+            background: #08050F !important;
+            border: 1.5px solid rgba(255,255,255,0.75) !important;
+            box-shadow: 0 0 3px #fff, 0 0 10px #06B6D4, 0 0 25px rgba(6,182,212,0.35) !important;
         }
         body.cos-neon .topic-box {
-            border: 1.5px solid #06B6D4;
-            box-shadow: 0 0 12px rgba(6,182,212,0.35);
+            background: #08050F;
+            border: 1.5px solid rgba(255,255,255,0.75);
+            box-shadow: 0 0 3px #fff, 0 0 10px #06B6D4, 0 0 22px rgba(6,182,212,0.3);
         }
-        body.cos-neon h1, body.cos-neon .rank-title, body.cos-neon .shop-title {
-            text-shadow: 0 0 12px #A78BFA, 0 0 28px rgba(167,139,250,0.5);
+        body.cos-neon .bottom-nav {
+            background: #06040E;
+            border-top: 2.5px solid rgba(255,255,255,0.85);
+            box-shadow: 0 -3px 8px #fff, 0 -8px 22px #A78BFA, 0 -16px 55px rgba(124,58,237,0.5);
         }
-        body.cos-neon .section-label {
-            text-shadow: 0 0 8px currentColor;
+        body.cos-neon .bn-home-orb {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.9);
+            box-shadow: 0 0 4px #fff, 0 0 12px #A78BFA, 0 0 28px #A78BFA, 0 0 55px rgba(124,58,237,0.5);
         }
         body.cos-neon .bn-item .bn-icon {
-            filter: drop-shadow(0 0 6px #A78BFA);
+            filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 8px #A78BFA);
         }
+        body.cos-neon .section-label { color: #A78BFA; text-shadow: 0 0 6px #fff, 0 0 14px #A78BFA; }
+        body.cos-neon .mat-strip { background: #08050F; color: #fff; }
 
         /* -- Void Theme (stars + planet) -- */
         body.cos-void {
@@ -2742,7 +2781,9 @@
 
             const cur = RANKS[user.rankIdx], next = RANKS[user.rankIdx+1];
             document.body.className = cur.cls;
-            if(user.activeCosmetic) document.body.classList.add(user.activeCosmetic.replace('cos_','cos-'));
+            // Migrate legacy single cosmetic to array
+            if(user.activeCosmetic && !user.activeCosmetics) user.activeCosmetics = [user.activeCosmetic];
+            (user.activeCosmetics || []).forEach(id => document.body.classList.add(id.replace('cos_','cos-')));
             document.getElementById('rank-icon').innerText = cur.icon;
             document.getElementById('rank-title').innerHTML = `<small class="rank-group">${cur.group}</small>${cur.title}`;
             if(next) {
@@ -3441,20 +3482,20 @@
                 </div>`;
             });
 
-            html += `<p class="section-label" style="color:#F472B6;">Cosmetics · Tap to equip/unequip</p>`;
+            html += `<p class="section-label" style="color:#F472B6;">Cosmetics · Stack multiple effects</p>`;
             const ownedCos = user.cosmetics || {};
-            const activeCos = user.activeCosmetic || null;
+            const activeCosArr = user.activeCosmetics || (user.activeCosmetic ? [user.activeCosmetic] : []);
             html += cosmetics.map(cos => {
                 const owned = !!ownedCos[cos.id];
-                const active = activeCos === cos.id;
-                const borderCol = active ? 'rgba(236,72,153,0.8)' : 'rgba(236,72,153,0.35)';
+                const active = activeCosArr.includes(cos.id);
+                const borderCol = active ? 'rgba(236,72,153,0.85)' : 'rgba(236,72,153,0.35)';
                 const bgStyle = active
                     ? 'background:linear-gradient(135deg,rgba(244,114,182,0.18),rgba(99,102,241,0.12));'
                     : 'background:linear-gradient(135deg,rgba(244,114,182,0.07),rgba(99,102,241,0.04));';
                 const badge = active
-                    ? '<span style="background:#EC4899;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">EQUIPPED</span>'
+                    ? '<span style="background:#EC4899;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">ON</span>'
                     : owned
-                        ? '<span style="color:var(--muted);font-size:0.73rem;margin-left:4px;">(tap to equip)</span>'
+                        ? '<span style="color:var(--muted);font-size:0.73rem;margin-left:4px;">(tap to enable)</span>'
                         : '';
                 return `<div class="shop-card" onclick="buyCosmetic('${cos.id}', ${cos.price})" style="display:flex;align-items:center;gap:18px;border-color:${borderCol};${bgStyle}cursor:pointer;transition:all 0.2s;">
                     <span style="font-size:2.4rem;">${cos.icon}</span>
@@ -3551,7 +3592,8 @@
             if(user.gems < price) { playWrong(); return showToast("Need more gems!"); }
             user.gems -= price;
             user.cosmetics[id] = true;
-            user.activeCosmetic = id;
+            if(!user.activeCosmetics) user.activeCosmetics = [];
+            if(!user.activeCosmetics.includes(id)) user.activeCosmetics.push(id);
             flash();
             burst(12, "✨", "hud-gems");
             playPurchase();
@@ -3563,11 +3605,13 @@
 
         function equipCosmetic(id) {
             if(!user.cosmetics || !user.cosmetics[id]) return;
-            if(user.activeCosmetic === id) {
-                user.activeCosmetic = null;
+            if(!user.activeCosmetics) user.activeCosmetics = [];
+            const idx = user.activeCosmetics.indexOf(id);
+            if(idx !== -1) {
+                user.activeCosmetics.splice(idx, 1);
                 showToast("Cosmetic removed");
             } else {
-                user.activeCosmetic = id;
+                user.activeCosmetics.push(id);
                 showToast("Cosmetic equipped!");
             }
             save();
