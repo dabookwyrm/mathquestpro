@@ -1668,49 +1668,44 @@
             background: #07050F !important;
         }
         /* Nebula clouds + animated starfield */
+        /* Nebula photo + star dots on top */
         body.cos-void::before {
             content: '';
             position: fixed; inset: 0;
             z-index: 0;
             pointer-events: none;
             background:
-                radial-gradient(ellipse 75% 55% at 8%  65%, rgba(37,99,235,0.13)   0%, transparent 70%),
-                radial-gradient(ellipse 50% 65% at 92% 30%, rgba(234,88,12,0.10)   0%, transparent 65%),
-                radial-gradient(ellipse 45% 38% at 78% 88%, rgba(251,146,60,0.09)  0%, transparent 60%),
-                radial-gradient(ellipse 55% 40% at 38% 92%, rgba(6,182,212,0.07)   0%, transparent 60%),
-                radial-gradient(ellipse 38% 28% at 18% 10%, rgba(185,28,28,0.07)   0%, transparent 55%),
                 radial-gradient(circle, rgba(255,255,255,0.92) 1px, transparent 1px),
                 radial-gradient(circle, rgba(255,255,255,0.70) 1px, transparent 1px),
                 radial-gradient(circle, rgba(200,180,255,0.80) 1px, transparent 1px),
                 radial-gradient(circle, rgba(255,255,255,0.50) 1px, transparent 1px),
-                radial-gradient(circle, rgba(180,160,255,0.60) 1px, transparent 1px);
+                url('./nebula.png');
             background-size:
-                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-                180px 180px, 260px 260px, 340px 340px, 420px 420px, 500px 500px;
+                180px 180px, 260px 260px, 340px 340px, 420px 420px,
+                cover;
             background-position:
-                0 0, 0 0, 0 0, 0 0, 0 0,
-                20px 30px, 80px 120px, 50px 200px, 140px 70px, 30px 310px;
+                20px 30px, 80px 120px, 50px 200px, 140px 70px,
+                center center;
+            background-repeat: repeat, repeat, repeat, repeat, no-repeat;
+            opacity: 0.55;
             animation: starDrift 80s linear infinite;
         }
         @keyframes starDrift {
-            from { background-position: 0 0,0 0,0 0,0 0,0 0, 20px 30px,  80px 120px,  50px 200px, 140px 70px,  30px 310px; }
-            to   { background-position: 0 0,0 0,0 0,0 0,0 0, 200px 210px, 340px 380px, 390px 540px, 560px 490px, 530px 810px; }
+            from { background-position: 20px 30px,  80px 120px,  50px 200px, 140px 70px,  center; }
+            to   { background-position: 200px 210px, 340px 380px, 390px 540px, 560px 490px, center; }
         }
-        /* Jupiter planet — fixed, top-right, always visible */
+        /* Jupiter planet — bigger, no brown ring */
         body.cos-void::after {
             content: '';
             position: fixed;
-            width: 105px; height: 105px;
+            width: 160px; height: 160px;
             border-radius: 50%;
             background-image: url('./planet.png');
             background-size: cover;
             background-position: center;
-            box-shadow:
-                0 0 0 8px  rgba(180,130,60,0.10),
-                0 0 28px   rgba(180,130,60,0.32),
-                0 0 65px   rgba(109,74,232,0.20);
-            top: 10%;
-            right: 6%;
+            box-shadow: 0 0 40px rgba(109,74,232,0.25);
+            top: 8%;
+            right: 5%;
             z-index: 1;
             pointer-events: none;
             animation: planetFloat 10s ease-in-out infinite;
