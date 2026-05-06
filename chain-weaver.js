@@ -365,13 +365,77 @@ function playSnapLock() {
             color:var(--text-secondary); font-weight:700; width:100%;
         }
         .cw-solution-box strong { color:var(--text-primary); }
+
+        /* ── CHAIN COSMETIC EFFECTS ─────────────────────────────── */
+        .cw-chain-fx-fire .cw-chain-img {
+            filter: hue-rotate(300deg) saturate(2.5) brightness(1.4)
+                    drop-shadow(0 0 8px #FF4500) drop-shadow(0 0 20px rgba(255,100,0,0.85)) !important;
+            animation: cw-chain-img-in 0.38s cubic-bezier(0.34,1.56,0.64,1) both,
+                       cw-fire-flicker 0.22s ease-in-out infinite 0.4s !important;
+        }
+        @keyframes cw-fire-flicker {
+            0%,100% { filter: hue-rotate(300deg) saturate(2.5) brightness(1.4) drop-shadow(0 0 8px #FF4500) drop-shadow(0 0 20px rgba(255,100,0,0.85)); }
+            50%     { filter: hue-rotate(315deg) saturate(3.5) brightness(2.1) drop-shadow(0 0 16px #FF6A00) drop-shadow(0 0 40px rgba(255,160,0,1)); }
+        }
+        .cw-chain-fx-electric .cw-chain-img {
+            filter: hue-rotate(140deg) saturate(3) brightness(1.6)
+                    drop-shadow(0 0 5px #00FFFF) drop-shadow(0 0 16px #007FFF) drop-shadow(0 0 30px rgba(0,200,255,0.9)) !important;
+            animation: cw-chain-img-in 0.38s cubic-bezier(0.34,1.56,0.64,1) both,
+                       cw-electric-flicker 0.1s linear infinite 0.4s !important;
+        }
+        @keyframes cw-electric-flicker {
+            0%   { filter: hue-rotate(140deg) saturate(3)   brightness(1.6) drop-shadow(0 0 5px #00FFFF)  drop-shadow(0 0 16px #007FFF); }
+            25%  { filter: hue-rotate(135deg) saturate(4.5) brightness(2.6) drop-shadow(0 0 12px #fff)    drop-shadow(0 0 26px #00FFFF) drop-shadow(0 0 45px rgba(0,255,255,1)); }
+            50%  { filter: hue-rotate(145deg) saturate(2.5) brightness(1.3) drop-shadow(0 0 3px #007FFF)  drop-shadow(0 0 10px rgba(0,100,200,0.7)); }
+            75%  { filter: hue-rotate(138deg) saturate(3.8) brightness(2.1) drop-shadow(0 0 8px #00FFFF)  drop-shadow(0 0 20px #00AFFF) drop-shadow(0 0 36px rgba(0,175,255,1)); }
+            100% { filter: hue-rotate(140deg) saturate(3)   brightness(1.6) drop-shadow(0 0 5px #00FFFF)  drop-shadow(0 0 16px #007FFF); }
+        }
+        .cw-chain-fx-rainbow .cw-chain-img {
+            animation: cw-chain-img-in 0.38s cubic-bezier(0.34,1.56,0.64,1) both,
+                       cw-rainbow-hue 2.2s linear infinite 0.4s !important;
+        }
+        @keyframes cw-rainbow-hue {
+            0%   { filter: hue-rotate(0deg)   saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(255,60,60,1)); }
+            16%  { filter: hue-rotate(60deg)  saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(255,210,0,1)); }
+            33%  { filter: hue-rotate(120deg) saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(50,255,50,1)); }
+            50%  { filter: hue-rotate(180deg) saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(0,210,255,1)); }
+            66%  { filter: hue-rotate(240deg) saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(120,50,255,1)); }
+            83%  { filter: hue-rotate(300deg) saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(255,0,210,1)); }
+            100% { filter: hue-rotate(360deg) saturate(3) brightness(1.6) drop-shadow(0 0 14px rgba(255,60,60,1)); }
+        }
+        /* Unary / exponent op button style */
+        .cw-op-btn.cw-op-unary {
+            font-size: 1.15rem; letter-spacing: 0.01em;
+            background: linear-gradient(170deg, rgba(52,211,153,0.08), rgba(52,211,153,0.02));
+            border-color: rgba(52,211,153,0.45); color: #34D399;
+        }
+        .cw-op-btn.cw-op-unary:hover:not(:disabled) {
+            border-color: rgba(52,211,153,0.85); color: #6EE7B7;
+            box-shadow: 0 10px 26px rgba(52,211,153,0.3), 0 0 0 3px rgba(52,211,153,0.1);
+        }
+        .cw-op-btn.cw-op-exp { font-size: 1.25rem; }
     `;
     document.head.appendChild(s);
 })();
 
-// ── Chain link image connector ───────────────────────────────────────────────
-function cwChainLinkSVG() {
-    return `<div class="cw-chain-img-wrap">
+// ── Chain link image connector — glow intensifies with chain length ───────────
+function cwChainLinkSVG(stepIdx = 0, totalSteps = 1) {
+    const t         = totalSteps <= 1 ? 0.5 : stepIdx / Math.max(1, totalSteps - 1);
+    const glowPx    = Math.round(4 + t * 26);
+    const glowAlpha = +(0.22 + t * 0.78).toFixed(2);
+    const bright    = +(1.05 + t * 0.55).toFixed(2);
+
+    // Check for active chain cosmetic effect
+    const activeCos = (typeof user !== 'undefined' && user) ? (user.activeCosmetics || []) : [];
+    const chainFxId = activeCos.find(id => id.startsWith('chain_'));
+    const chainFx   = chainFxId ? chainFxId.replace('chain_', '') : null;
+
+    const wrapClass = `cw-chain-img-wrap${chainFx ? ' cw-chain-fx-' + chainFx : ''}`;
+    // Apply increasing drop-shadow on wrapper when no chain effect is active
+    const wrapStyle = chainFx ? '' :
+        `filter:drop-shadow(0 0 ${glowPx}px rgba(167,139,250,${glowAlpha})) brightness(${bright});`;
+
+    return `<div class="${wrapClass}" style="${wrapStyle}">
         <img class="cw-chain-img" src="${_CW_CHAIN_IMG}" alt="" draggable="false"/>
     </div>`;
 }
@@ -452,6 +516,7 @@ function generateCWPuzzle(level) {
     const numCount = Math.min(3 + Math.floor((level - 1) / 3), 7);
     const useMult  = level >= 3;
     const useDiv   = level >= 6;
+    const useExp   = level >= 8;
     const maxVal   = Math.min(4 + level * 3, 40);
 
     let attempts = 0;
@@ -467,18 +532,20 @@ function generateCWPuzzle(level) {
             const ops = ['+', '-'];
             if (useMult) ops.push('×');
             if (useDiv && n !== 0 && current % n === 0 && current / n > 0) ops.push('÷');
+            if (useExp && n >= 2 && n <= 3 && Number.isInteger(Math.pow(current, n)) && Math.pow(current, n) <= 999) ops.push('^');
 
             const legal = ops.filter(op => {
                 if (op === '+') return current + n <= 999;
                 if (op === '-') return current - n > 0;
                 if (op === '×') return current * n <= 999;
                 if (op === '÷') return n !== 0 && current % n === 0 && current / n > 0;
+                if (op === '^') return n >= 2 && n <= 3 && Number.isInteger(Math.pow(current, n)) && Math.pow(current, n) <= 999;
                 return false;
             });
 
             if (!legal.length) { valid = false; break; }
             const op  = legal[Math.floor(Math.random() * legal.length)];
-            const res = op==='+' ? current+n : op==='-' ? current-n : op==='×' ? current*n : current/n;
+            const res = op==='+' ? current+n : op==='-' ? current-n : op==='×' ? current*n : op==='÷' ? current/n : Math.pow(current,n);
             chain.push({ op, num: n, result: res });
             current = res;
         }
@@ -489,6 +556,75 @@ function generateCWPuzzle(level) {
     }
 
     return { tiles:[3,4,2], startNum:3, target:20, solution:[{op:'+',num:4,result:7},{op:'×',num:2,result:14}], level };
+}
+
+// ── Target-hit celebration (bigger than a snap) ────────────────────────────────
+function cwTargetHitEffect() {
+    const ctx = _cwAudio();
+    if (ctx) {
+        try {
+            const osc = ctx.createOscillator(), gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(440,  ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(880,  ctx.currentTime + 0.22);
+            osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.42);
+            gain.gain.setValueAtTime(0.35, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.75);
+            osc.start(); osc.stop(ctx.currentTime + 0.75);
+        } catch(e) {}
+    }
+    // Green screen flash
+    const flash = document.createElement('div');
+    flash.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9990;' +
+        'background:rgba(52,211,153,0.22);animation:cw-screen-flash 0.55s ease-out forwards;';
+    document.body.appendChild(flash);
+    flash.addEventListener('animationend', () => flash.remove());
+
+    // "TARGET HIT!" pop text
+    const txt = document.createElement('div');
+    txt.textContent = '🎯 TARGET HIT!';
+    txt.style.cssText = 'position:fixed;top:28%;left:50%;pointer-events:none;z-index:9999;white-space:nowrap;' +
+        'font-family:var(--font-display);font-size:2.6rem;color:#34D399;letter-spacing:0.1em;' +
+        'text-shadow:0 0 40px rgba(52,211,153,1),0 0 80px rgba(52,211,153,0.6);' +
+        'animation:cw-mult-pop 1.7s cubic-bezier(0.34,1.56,0.64,1) forwards;' +
+        'transform:translate(-50%,-50%) scale(0.4);';
+    document.body.appendChild(txt);
+    txt.addEventListener('animationend', () => txt.remove());
+
+    // Mega burst from target number
+    const targetEl = document.querySelector('.cw-target-num') || document.querySelector('.cw-target-block');
+    if (targetEl) {
+        const r = targetEl.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const COLS = ['#34D399','#6EE7B7','#FBBF24','#A78BFA','#F472B6','#fff','#60A5FA','#FCD34D'];
+        for (let i = 0; i < 30; i++) {
+            const angle = (i / 30) * 360 + (Math.random() - 0.5) * 12;
+            const dist  = 70 + Math.random() * 110;
+            const dx = Math.cos(angle * Math.PI / 180) * dist;
+            const dy = Math.sin(angle * Math.PI / 180) * dist;
+            const sz = 4 + Math.random() * 7;
+            const col = COLS[Math.floor(Math.random() * COLS.length)];
+            const dur = 0.55 + Math.random() * 0.5;
+            const p = document.createElement('div');
+            p.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;
+                border-radius:50%;background:${col};pointer-events:none;z-index:9991;
+                --pdx:${dx}px;--pdy:${dy}px;
+                animation:cw-particle ${dur}s ${(Math.random()*0.12).toFixed(2)}s ease-out forwards;
+                box-shadow:0 0 ${sz*2}px ${col};`;
+            document.body.appendChild(p);
+            p.addEventListener('animationend', () => p.remove());
+        }
+        ['#34D399','#FBBF24','#A78BFA'].forEach((col, i) => {
+            const ring = document.createElement('div');
+            ring.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;
+                width:${38+i*20}px;height:${38+i*20}px;border-radius:50%;
+                border:${3-i}px solid ${col};pointer-events:none;z-index:9991;
+                animation:cw-burst-ring 0.68s ${(i*0.12).toFixed(2)}s ease-out forwards;`;
+            document.body.appendChild(ring);
+            ring.addEventListener('animationend', () => ring.remove());
+        });
+    }
 }
 
 // ── Entry / Exit ───────────────────────────────────────────────────────────────
@@ -540,13 +676,17 @@ function cwPickTile(value, idx) {
         if      (op === '+') result = cw.current + n;
         else if (op === '-') result = cw.current - n;
         else if (op === '×') result = cw.current * n;
-        else {
+        else if (op === '^') {
+            if (n < 2 || n > 4) { showToast('Exponent must be 2–4'); return; }
+            result = Math.pow(cw.current, n);
+        } else {
             if (n === 0 || cw.current % n !== 0) { showToast('Must divide evenly — pick another number'); return; }
             result = cw.current / n;
         }
 
-        if (!Number.isInteger(result) || result <= 0) { showToast('Result must be a positive whole number'); return; }
-        if (result > 999999) { showToast('Result too large'); return; }
+        if (!Number.isInteger(result) || !Number.isFinite(result)) { showToast('Result must be a whole number'); return; }
+        if (result > 99999) { showToast('Result too large'); return; }
+        if (result <= 0 && op !== '^') { showToast('Result must be positive'); return; }
 
         cw.chain.push({ op, num: n, result, prevVal: cw.current });
         cw.used.push({ value: n });
@@ -573,6 +713,32 @@ function cwSelectOp(op) {
     if (!cw || (cw.phase !== 'pick-op' && cw.phase !== 'pick-num')) return;
     cw.selectedOp = (cw.selectedOp === op) ? null : op;
     cw.phase      = cw.selectedOp ? 'pick-num' : 'pick-op';
+    cwRender();
+}
+
+// ── Unary ops (√, REV, NEG) — apply instantly, no tile consumed ────────────────
+function cwApplyUnaryOp(op) {
+    if (!cw || cw.phase !== 'pick-op' || cw.current === null) return;
+    let result;
+    if (op === '√') {
+        const sq = Math.round(Math.sqrt(cw.current));
+        if (sq * sq !== cw.current || sq <= 0) { showToast('Not a perfect square — try another op'); return; }
+        result = sq;
+    } else if (op === 'NEG') {
+        result = -cw.current;
+    } else if (op === 'REV') {
+        const isNeg = cw.current < 0;
+        const reversed = parseInt(Math.abs(cw.current).toString().split('').reverse().join(''));
+        result = isNeg ? -reversed : reversed;
+        if (!Number.isFinite(result) || isNaN(result)) { showToast('Cannot reverse this number'); return; }
+    }
+    if (!Number.isFinite(result)) { showToast('Invalid result'); return; }
+    cw.chain.push({ op, num: null, result, prevVal: cw.current, unary: true });
+    cw.current    = result;
+    cw.selectedOp = null;
+    cw.phase      = cw.remaining.length > 0 ? 'pick-op' : 'done';
+    cwSnapEffect();
+    if (cw.phase === 'done') { setTimeout(cwCheck, 400); return; }
     cwRender();
 }
 
@@ -622,6 +788,7 @@ function cwCheck() {
             setTimeout(() => { if (typeof checkSpaceChainChallenges === 'function') checkSpaceChainChallenges(); }, 800);
         }
         if (cw.streak > 1 && cw.streak % 3 === 0) cwFlashMult('STREAK x' + cw.streak);
+        cwTargetHitEffect();
         playCorrect();
     } else {
         cw.streak = 0;
@@ -670,7 +837,7 @@ function cwShowResult(won, earned) {
                 ${cw.puzzle.startNum} → ${solutionLine} = ${cw.puzzle.target}
             </div>
             <div style="display:flex;gap:12px;margin-top:24px;width:100%">
-                <button class="main-btn" onclick="cwNext()" style="flex:1">TRY AGAIN →</button>
+                <button class="main-btn" onclick="cwNext()" style="flex:1">TRY AGAIN →< /button>
                 <button class="main-btn btn-ghost" onclick="cwExit()" style="flex:1">Exit</button>
             </div>`;
     }
@@ -686,11 +853,12 @@ function cwBuildChainHTML(forResult = false) {
         ? (cw.used[0]?.value ?? cw.puzzle.startNum) : cw.puzzle.startNum;
 
     let html = `<span class="cw-node cw-node-start">${startDisplay ?? cw.puzzle.startNum}</span>`;
-    cw.chain.forEach(step => {
+    cw.chain.forEach((step, idx) => {
+        const label = step.unary ? step.op : `${step.op}${step.num}`;
         html += `
             <div class="cw-chain-connector">
-                <span class="cw-chain-op-label">${step.op}${step.num}</span>
-                ${cwChainLinkSVG()}
+                <span class="cw-chain-op-label">${label}</span>
+                ${cwChainLinkSVG(idx, cw.chain.length)}
             </div>
             <span class="cw-node cw-node-mid">${step.result}</span>`;
     });
@@ -703,8 +871,22 @@ function cwRender() {
     if (!sec || !cw) return;
 
     const { target, level } = cw.puzzle;
-    const opsAvail   = level < 3 ? ['+', '-'] : level < 6 ? ['+', '-', '×'] : ['+', '-', '×', '÷'];
-    const opsDisabled = cw.phase !== 'pick-op' && cw.phase !== 'pick-num';
+    // Binary ops (need a number tile)
+    const binaryOps = ['+', '-'];
+    if (level >= 3) binaryOps.push('×');
+    if (level >= 6) binaryOps.push('÷');
+    if (level >= 8) binaryOps.push('^');
+    // Unary ops (instant, no tile consumed) — only shown in pick-op with a current value
+    const unaryOps = [];
+    if (level >= 10 && cw.current !== null) {
+        const sq = Math.round(Math.sqrt(cw.current));
+        if (sq * sq === cw.current && sq > 0) unaryOps.push('√');
+    }
+    if (level >= 12 && cw.current !== null) unaryOps.push('REV');
+    if (level >= 15 && cw.current !== null) unaryOps.push('NEG');
+
+    const binaryDisabled = cw.phase !== 'pick-op' && cw.phase !== 'pick-num';
+    const unaryDisabled  = cw.phase !== 'pick-op' || cw.current === null;
 
     const phaseText = cw.phase === 'pick-start' ? 'TAP A NUMBER TO START YOUR CHAIN'
                     : cw.phase === 'pick-op'    ? 'SELECT AN OPERATOR'
@@ -713,10 +895,14 @@ function cwRender() {
     const phaseCls  = cw.phase === 'pick-op' ? 'phase-pick-op'
                     : cw.phase === 'pick-num' ? 'phase-pick-num' : '';
 
-    const opBtns = opsAvail.map(op => `
-        <button class="cw-op-btn ${cw.selectedOp === op ? 'cw-op-active' : ''}"
-                onclick="cwSelectOp('${op}')" ${opsDisabled ? 'disabled' : ''}>${op}</button>`
-    ).join('');
+    const opBtns = [
+        ...binaryOps.map(op => `
+            <button class="cw-op-btn ${op === '^' ? 'cw-op-exp' : ''} ${cw.selectedOp === op ? 'cw-op-active' : ''}"
+                    onclick="cwSelectOp('${op}')" ${binaryDisabled ? 'disabled' : ''}>${op === '^' ? 'xⁿ' : op}</button>`),
+        ...unaryOps.map(op => `
+            <button class="cw-op-btn cw-op-unary" title="${op==='√'?'Square root':op==='REV'?'Reverse digits':'Negate'}"
+                    onclick="cwApplyUnaryOp('${op}')" ${unaryDisabled ? 'disabled' : ''}>${op}</button>`)
+    ].join('');
 
     const undoBtn = (cw.chain.length > 0 || cw.current !== null || (cw.phase === 'pick-num' && cw.selectedOp))
         ? `<button class="cw-undo-btn" onclick="cwUndo()">↩ UNDO</button>` : '';
