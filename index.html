@@ -1665,48 +1665,59 @@
             --accent-glow: rgba(139,92,246,0.5);
             --muted: #A78BFA;
             --line: #1A1730;
+            background: #07050F !important;
         }
-        /* Animated starfield layer */
+        /* Nebula clouds + animated starfield */
         body.cos-void::before {
             content: '';
             position: fixed; inset: 0;
             z-index: 0;
             pointer-events: none;
-            background-image:
+            background:
+                radial-gradient(ellipse 75% 55% at 8%  65%, rgba(37,99,235,0.13)   0%, transparent 70%),
+                radial-gradient(ellipse 50% 65% at 92% 30%, rgba(234,88,12,0.10)   0%, transparent 65%),
+                radial-gradient(ellipse 45% 38% at 78% 88%, rgba(251,146,60,0.09)  0%, transparent 60%),
+                radial-gradient(ellipse 55% 40% at 38% 92%, rgba(6,182,212,0.07)   0%, transparent 60%),
+                radial-gradient(ellipse 38% 28% at 18% 10%, rgba(185,28,28,0.07)   0%, transparent 55%),
                 radial-gradient(circle, rgba(255,255,255,0.92) 1px, transparent 1px),
-                radial-gradient(circle, rgba(255,255,255,0.7)  1px, transparent 1px),
-                radial-gradient(circle, rgba(200,180,255,0.8)  1px, transparent 1px),
-                radial-gradient(circle, rgba(255,255,255,0.5)  1px, transparent 1px),
-                radial-gradient(circle, rgba(180,160,255,0.6)  1px, transparent 1px);
-            background-size: 180px 180px, 260px 260px, 340px 340px, 420px 420px, 500px 500px;
-            background-position: 20px 30px, 80px 120px, 50px 200px, 140px 70px, 30px 310px;
+                radial-gradient(circle, rgba(255,255,255,0.70) 1px, transparent 1px),
+                radial-gradient(circle, rgba(200,180,255,0.80) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.50) 1px, transparent 1px),
+                radial-gradient(circle, rgba(180,160,255,0.60) 1px, transparent 1px);
+            background-size:
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                180px 180px, 260px 260px, 340px 340px, 420px 420px, 500px 500px;
+            background-position:
+                0 0, 0 0, 0 0, 0 0, 0 0,
+                20px 30px, 80px 120px, 50px 200px, 140px 70px, 30px 310px;
             animation: starDrift 80s linear infinite;
         }
         @keyframes starDrift {
-            from { background-position: 20px 30px,  80px 120px, 50px 200px, 140px 70px,  30px 310px; }
-            to   { background-position: 200px 210px, 340px 380px, 390px 540px, 560px 490px, 530px 810px; }
+            from { background-position: 0 0,0 0,0 0,0 0,0 0, 20px 30px,  80px 120px,  50px 200px, 140px 70px,  30px 310px; }
+            to   { background-position: 0 0,0 0,0 0,0 0,0 0, 200px 210px, 340px 380px, 390px 540px, 560px 490px, 530px 810px; }
         }
-        /* Floating planet */
+        /* Jupiter planet — fixed, top-right, always visible */
         body.cos-void::after {
             content: '';
             position: fixed;
-            width: 110px; height: 110px;
+            width: 105px; height: 105px;
             border-radius: 50%;
-            background: radial-gradient(circle at 38% 32%, #6D4AE8, #3B0E8C 55%, #1A0540);
+            background-image: url('./planet.png');
+            background-size: cover;
+            background-position: center;
             box-shadow:
-                0 0 0 12px rgba(109,74,232,0.12),
-                0 0 0 28px rgba(109,74,232,0.06),
-                0 0 50px rgba(109,74,232,0.55),
-                0 0 100px rgba(109,74,232,0.25);
-            top: 8%;
-            right: calc(50% - 310px);
+                0 0 0 8px  rgba(180,130,60,0.10),
+                0 0 28px   rgba(180,130,60,0.32),
+                0 0 65px   rgba(109,74,232,0.20);
+            top: 10%;
+            right: 6%;
             z-index: 1;
             pointer-events: none;
-            animation: planetFloat 9s ease-in-out infinite;
+            animation: planetFloat 10s ease-in-out infinite;
         }
         @keyframes planetFloat {
-            0%,100% { transform: translateY(0px) rotate(0deg); }
-            50%      { transform: translateY(-18px) rotate(6deg); }
+            0%,100% { transform: translateY(0px); }
+            50%      { transform: translateY(-14px); }
         }
         body.cos-void .card {
             background: linear-gradient(160deg, #0C0A1E, #110E2C, #0A0818);
